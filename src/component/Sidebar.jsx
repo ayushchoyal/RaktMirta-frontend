@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
-import { FaHome, FaHandHoldingHeart, FaUserFriends, FaHospital, FaInfoCircle, FaBars } from "react-icons/fa";
+import { FaHome, FaHandHoldingHeart, FaUserFriends, FaHospital, FaInfoCircle, FaBars, FaUserPlus } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
@@ -29,6 +29,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <Nav.Link href="/blood_donar" className="text-white d-flex align-items-center mb-3">
           <FaHandHoldingHeart className="me-2" />
           {isOpen && "Donors"}
+        </Nav.Link>
+
+        <Nav.Link href="/donor-registration" className="text-white d-flex align-items-center mb-3">
+          <FaUserPlus className="me-2" />
+          {isOpen && "Become Donor"}
         </Nav.Link>
 
         <Nav.Link href="/patients" className="text-white d-flex align-items-center mb-3">

@@ -6,6 +6,7 @@ import Donar from "./component/Donar.jsx";
 import DonorDetails from "./component/DonorDetails.jsx";
 import Login from "./component/Login.jsx";
 import Registration from "./component/Registration.jsx";
+import DonorRegistration from "./component/DonorRegistration.jsx";
 import Sidebar from "./component/Sidebar.jsx";
 import Information from "./component/Information.jsx";
 
@@ -39,6 +40,7 @@ function App() {
             <Route path="/register" element={<Registration />} />
             <Route path="/blood_donar" element={<Donar />} />
             <Route path="/donor/:id" element={<DonorDetails />} />
+            <Route path="/donor-registration" element={<DonorRegistration />} />
             <Route path="/info" element={<Information />} />
           </Routes>
         </div>
