@@ -15,6 +15,7 @@ import Sidebar from "./component/Sidebar.jsx";
 import Information from "./component/Information.jsx";
 import AdminPage from "./admin/AdminPage.jsx";
 import ProtectedRoute from "./component/ProtectedRoute.jsx";
+import DonorRegistration from "./component/DonorRegistration.jsx";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -81,6 +82,7 @@ function App() {
               <Route path="*" element={<Navigate to="/login" replace />} />
             )}
           </Routes>
+            <Route path="/donor-registration" element={<DonorRegistration />} />
         </div>
       </div>
     </Router>
