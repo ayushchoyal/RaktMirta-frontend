@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+
 import Navbar from "./component/Navbar.jsx";
 import Home from "./component/Home.jsx";
 import Donar from "./component/Donar.jsx";
@@ -45,7 +46,7 @@ function App() {
           }}
         >
           <Routes>
-            {/* Public */}
+            {/* Public Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
 
@@ -56,6 +57,10 @@ function App() {
                 <Route path="/blood_donar" element={<Donar />} />
                 <Route path="/donor/:id" element={<DonorDetails />} />
                 <Route path="/info" element={<Information />} />
+                <Route
+                  path="/donor-registration"
+                  element={<DonorRegistration />}
+                />
               </>
             )}
 
@@ -77,12 +82,11 @@ function App() {
               <Route path="/" element={<Navigate to="/admin" replace />} />
             )}
 
-            {/* If not logged in → go to login */}
+            {/* Catch-all: If not logged in → go to login */}
             {!isLoggedIn && (
               <Route path="*" element={<Navigate to="/login" replace />} />
             )}
           </Routes>
-            <Route path="/donor-registration" element={<DonorRegistration />} />
         </div>
       </div>
     </Router>
