@@ -42,7 +42,11 @@ const Home = () => {
               </p>
               <div className="mt-4">
                 <a
+<<<<<<< HEAD
                   href="/donate"
+=======
+                  href="/donor-registration"
+>>>>>>> d525fcdd36cd8a7323e9b74a1c01810550824fb8
                   className="btn btn-danger btn-lg me-3 shadow-sm"
                 >
                   Donate Blood

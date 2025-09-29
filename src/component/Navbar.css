@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .custom-link {
   position: relative;
   transition: all 0.3s ease;
@@ -17,3 +18,24 @@
 .custom-link:hover::after {
   width: 100%; /* underline expands smoothly */
 }
+=======
+.custom-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.custom-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px; /* pushes underline lower */
+  width: 0;
+  height: 2px; /* thickness of underline */
+  background-color: #b00020;
+  transition: width 0.3s ease;
+}
+
+.custom-link:hover::after {
+  width: 100%; /* underline expands smoothly */
+}
+>>>>>>> d525fcdd36cd8a7323e9b74a1c01810550824fb8
