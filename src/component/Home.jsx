@@ -16,13 +16,10 @@ const Home = () => {
         `}
       </style>
 
-
-
       {/* Hero Section */}
       <section
         className="d-flex align-items-center"
         style={{
-
           background: "linear-gradient(90deg, #f5f7fa, #c3cfe2)",
         }}
       >
@@ -42,11 +39,7 @@ const Home = () => {
               </p>
               <div className="mt-4">
                 <a
-<<<<<<< HEAD
-                  href="/donate"
-=======
                   href="/donor-registration"
->>>>>>> d525fcdd36cd8a7323e9b74a1c01810550824fb8
                   className="btn btn-danger btn-lg me-3 shadow-sm"
                 >
                   Donate Blood
@@ -137,10 +130,12 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
       <footer
         className="text-dark pt-5 pb-3 mt-5"
         style={{
-          background: "linear-gradient(90deg, #f5f7fa, #c3cfe2)", // same as navbar
+          background: "linear-gradient(90deg, #f5f7fa, #c3cfe2)",
         }}
       >
         <div className="container">
@@ -164,7 +159,7 @@ const Home = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="/donate" className="text-dark text-decoration-none">
+                  <a href="/donor-registration" className="text-dark text-decoration-none">
                     Donate Blood
                   </a>
                 </li>
@@ -187,7 +182,6 @@ const Home = () => {
               <p className="small mb-1">📍 Indore, Madhya Pradesh, India</p>
               <p className="small mb-1">📧 support@raktmitra.org</p>
               <p className="small">📞 +91 87876 87556</p>
-              {/* Social Icons */}
               <div className="d-flex gap-3 mt-2">
                 <a href="#" className="text-danger fs-5">
                   <i className="bi bi-facebook"></i>
