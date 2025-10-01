@@ -67,7 +67,7 @@ const DonorDetails = () => {
           <div className="col-md-5 text-center mb-4">
             {donor.imageUrl ? (
               <img
-                src={donor.imageUrl}
+                src={`/${donor.imageUrl}`}
                 alt={donor.name}
                 className="card-img-top"
                 style={{
