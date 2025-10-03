@@ -96,6 +96,7 @@ const DonorRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // ✅ Validation
     if (!formData.consentToContact || !formData.consentToShare) {
       setMessage("Please provide consent to proceed with registration.");
       setMessageType("danger");
@@ -119,21 +120,27 @@ const DonorRegistration = () => {
         return;
       }
 
-      // ✅ use FormData for file upload
+      // ✅ Create FormData with two parts
       const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (Array.isArray(formData[key])) {
-          formData[key].forEach((item) =>
-            formDataToSend.append(key, item)
-          );
-        } else if (formData[key] !== null) {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
 
+      // Donor JSON (without file)
+      const donorData = { ...formData };
+      delete donorData.profileImage;
+
+      formDataToSend.append(
+        "donor",
+        new Blob([JSON.stringify(donorData)], { type: "application/json" })
+      );
+
+      // File
+      if (formData.profileImage) {
+        formDataToSend.append("image", formData.profileImage);
+      }
+
+      // Send to backend
       const response = await fetch("http://localhost:8080/user/donor/register", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }, // don’t set Content-Type manually
         body: formDataToSend,
       });
 
@@ -533,8 +540,8 @@ const DonorRegistration = () => {
                     <Form.Group className="mb-3">
                       <Form.Label>Alcohol Consumption</Form.Label>
                       <Form.Select
-                        name="alcoholConsumption"
-                        value={formData.alcoholConsumption}
+                        name="alcholConsumption"
+                        value={formData.alcholConsumption}
                         onChange={handleChange}
                       >
                         <option value="no">No</option>
