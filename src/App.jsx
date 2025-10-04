@@ -49,17 +49,14 @@ function App() {
             {/* Public Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
-            <Route path="/info" element={<Information />} />
-            <Route path="/" element={<Home />} />
-            
 
             {/* User Routes */}
             {role !== "ADMIN" && isLoggedIn && (
               <>
-
+                <Route path="/" element={<Home />} />
                 <Route path="/blood_donar" element={<Donar />} />
                 <Route path="/donor/:id" element={<DonorDetails />} />
-                
+                <Route path="/info" element={<Information />} />
                 <Route
                   path="/donor-registration"
                   element={<DonorRegistration />}

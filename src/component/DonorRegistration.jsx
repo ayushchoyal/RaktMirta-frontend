@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, Form, Button, Alert } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Alert,
+} from "react-bootstrap";
 
 const DonorRegistration = () => {
   const navigate = useNavigate();
@@ -42,10 +50,8 @@ const DonorRegistration = () => {
     smokingStatus: "no",
     alcoholConsumption: "no",
 
-    // Emergency Contact
-    emergencyContactName: "",
-    emergencyContactPhone: "",
-    emergencyContactRelation: "",
+    
+  
 
     // Profile Image
     profileImage: null, // ✅ added
@@ -57,16 +63,49 @@ const DonorRegistration = () => {
 
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
   const states = [
-    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
-    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
   ];
   const chronicDiseaseOptions = [
-    "Diabetes", "Hypertension", "Heart Disease", "Kidney Disease", 
-    "Liver Disease", "Asthma", "Epilepsy", "Cancer", "HIV/AIDS", 
-    "Hepatitis B", "Hepatitis C", "Tuberculosis", "None"
+    "Diabetes",
+    "Hypertension",
+    "Heart Disease",
+    "Kidney Disease",
+    "Liver Disease",
+    "Asthma",
+    "Epilepsy",
+    "Cancer",
+    "HIV/AIDS",
+    "Hepatitis B",
+    "Hepatitis C",
+    "Tuberculosis",
+    "None",
   ];
 
   const handleChange = (e) => {
@@ -138,16 +177,21 @@ const DonorRegistration = () => {
       }
 
       // Send to backend
-      const response = await fetch("http://localhost:8080/user/donor/register", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` }, // don’t set Content-Type manually
-        body: formDataToSend,
-      });
+      const response = await fetch(
+        "http://localhost:8080/user/donor/register",
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` }, // don’t set Content-Type manually
+          body: formDataToSend,
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Donor registration successful! Thank you for joining our community.");
+        setMessage(
+          "Donor registration successful! Thank you for joining our community."
+        );
         setMessageType("success");
         setTimeout(() => navigate("/blood_donar"), 2000);
       } else {
@@ -176,7 +220,6 @@ const DonorRegistration = () => {
           )}
 
           <Form onSubmit={handleSubmit}>
-            
             {/* Profile Image Upload */}
             <Card className="mb-4">
               <Card.Header className="bg-light">
@@ -328,65 +371,65 @@ const DonorRegistration = () => {
                 </Col>
               </Row>
             </Card.Body>
-          
 
             <Card.Body>
-                <Form.Group className="mb-3">
-                  <Form.Label>Address *</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
-                
-                <Row>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>City *</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>State *</Form.Label>
-                      <Form.Select
-                        name="state"
-                        value={formData.state}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="">Select State</option>
-                        {states.map(state => (
-                          <option key={state} value={state}>{state}</option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Pincode *</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="pincode"
-                        value={formData.pincode}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-              </Card.Body>
-          
+              <Form.Group className="mb-3">
+                <Form.Label>Address *</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={2}
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+
+              <Row>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>City *</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>State *</Form.Label>
+                    <Form.Select
+                      name="state"
+                      value={formData.state}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select State</option>
+                      {states.map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Pincode *</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="pincode"
+                      value={formData.pincode}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Card.Body>
 
             {/* Dietary Preference */}
             <Card className="mb-4">
@@ -427,9 +470,11 @@ const DonorRegistration = () => {
               </Card.Header>
               <Card.Body>
                 <Form.Group className="mb-3">
-                  <Form.Label>Chronic Diseases (Select all that apply)</Form.Label>
+                  <Form.Label>
+                    Chronic Diseases (Select all that apply)
+                  </Form.Label>
                   <Row>
-                    {chronicDiseaseOptions.map(disease => (
+                    {chronicDiseaseOptions.map((disease) => (
                       <Col md={4} key={disease}>
                         <Form.Check
                           type="checkbox"
@@ -537,18 +582,16 @@ const DonorRegistration = () => {
                     </Form.Group>
                   </Col>
                   <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Alcohol Consumption</Form.Label>
-                      <Form.Select
-                        name="alcholConsumption"
-                        value={formData.alcholConsumption}
-                        onChange={handleChange}
-                      >
-                        <option value="no">No</option>
-                        <option value="occasional">Occasional</option>
-                        <option value="regular">Regular</option>
-                      </Form.Select>
-                    </Form.Group>
+                    <Form.Select
+                      name="alcoholConsumption"
+                      value={formData.alcoholConsumption}
+                      onChange={handleChange}
+                    >
+                      <option value="">Select</option>
+                      <option value="No">Never</option>
+                      <option value="Occasionally">Occasionally</option>
+                      <option value="Regularly">Regularly</option>
+                    </Form.Select>
                   </Col>
                   {formData.gender === "female" && (
                     <Col md={4}>
@@ -570,7 +613,6 @@ const DonorRegistration = () => {
               </Card.Body>
             </Card>
 
-
             {/* Consent Section */}
             <Card className="mb-4">
               <Card.Header className="bg-light">
@@ -587,7 +629,7 @@ const DonorRegistration = () => {
                     required
                   />
                 </Form.Group>
-                
+
                 <Form.Group className="mb-3">
                   <Form.Check
                     type="checkbox"
@@ -598,11 +640,13 @@ const DonorRegistration = () => {
                     required
                   />
                 </Form.Group>
-                
+
                 <Alert variant="info" className="mt-3">
                   <small>
-                    <strong>Note:</strong> All information provided will be kept confidential and used only for blood donation purposes. 
-                    You can update or remove your information at any time by contacting us.
+                    <strong>Note:</strong> All information provided will be kept
+                    confidential and used only for blood donation purposes. You
+                    can update or remove your information at any time by
+                    contacting us.
                   </small>
                 </Alert>
               </Card.Body>
@@ -610,12 +654,7 @@ const DonorRegistration = () => {
 
             {/* Submit Button */}
             <div className="text-center">
-              <Button 
-                type="submit" 
-                variant="danger" 
-                size="lg" 
-                className="px-5"
-              >
+              <Button type="submit" variant="danger" size="lg" className="px-5">
                 Register as Donor
               </Button>
             </div>
