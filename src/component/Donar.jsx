@@ -32,7 +32,8 @@ const Donor = () => {
         }
 
         const data = await response.json();
-        setDonors(data);
+        const activeDonors = data.filter((donor) => donor.status === true);
+        setDonors(activeDonors);
       } catch (err) {
         console.error("Error fetching donors:", err);
         setError(err.message);

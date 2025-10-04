@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -107,6 +107,38 @@ const DonorRegistration = () => {
     "Tuberculosis",
     "None",
   ];
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+
+        const response = await fetch("http://localhost:8080/user/details", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+          const userData = await response.json();
+          // Assuming backend returns { name, email, phone }
+          setFormData((prev) => ({
+            ...prev,
+            name: userData.name || "",
+            email: userData.email || "",
+            phone: userData.phone || "",
+          }));
+        } else {
+          console.error("Failed to fetch user details");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -178,7 +210,7 @@ const DonorRegistration = () => {
 
       // Send to backend
       const response = await fetch(
-        "http://localhost:8080/user/donor/register",
+        "http://localhost:8080/user/register",
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` }, // don’t set Content-Type manually
@@ -582,6 +614,8 @@ const DonorRegistration = () => {
                     </Form.Group>
                   </Col>
                   <Col md={4}>
+                   <Form.Group className="mb-3">
+                      <Form.Label>Alcohol Consumption</Form.Label>
                     <Form.Select
                       name="alcoholConsumption"
                       value={formData.alcoholConsumption}
@@ -592,6 +626,7 @@ const DonorRegistration = () => {
                       <option value="Occasionally">Occasionally</option>
                       <option value="Regularly">Regularly</option>
                     </Form.Select>
+                    </Form.Group>
                   </Col>
                   {formData.gender === "female" && (
                     <Col md={4}>

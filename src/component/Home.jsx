@@ -13,6 +13,11 @@ const Home = () => {
             transform: translateY(-8px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
           }
+
+          .certificate-img:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+          }
         `}
       </style>
 
@@ -127,6 +132,24 @@ const Home = () => {
               <h3 className="text-danger fw-bold">3 Lives</h3>
               <p>Saved by just one blood donation.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Donor Certificate Section */}
+      <section className="py-5">
+        <div className="container text-center">
+          <h2 className="fw-bold mb-4 text-danger">Donor Appreciation Certificate</h2>
+          <p className="mb-4">
+            Every donor receives a certificate of appreciation for their life-saving contribution.
+          </p>
+          <div className="d-flex justify-content-center">
+            <img
+              src="RaktMitra Certificate.png"
+              alt="Donor Certificate"
+              className="img-fluid shadow-lg rounded certificate-img"
+              style={{ maxWidth: "400px" }}
+            />
           </div>
         </div>
       </section>
