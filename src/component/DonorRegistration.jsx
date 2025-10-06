@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -49,9 +49,6 @@ const DonorRegistration = () => {
     pregnancyStatus: "no",
     smokingStatus: "no",
     alcoholConsumption: "no",
-
-    
-  
 
     // Profile Image
     profileImage: null, // ✅ added
@@ -139,6 +136,7 @@ const DonorRegistration = () => {
 
     fetchUserData();
   }, [navigate]);
+ 
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -209,23 +207,23 @@ const DonorRegistration = () => {
       }
 
       // Send to backend
-      const response = await fetch(
-        "http://localhost:8080/user/register",
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` }, // don’t set Content-Type manually
-          body: formDataToSend,
-        }
-      );
+      const response = await fetch("http://localhost:8080/user/register", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` }, // don’t set Content-Type manually
+        body: formDataToSend,
+      });
 
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("donorEmail", data.email);
         setMessage(
           "Donor registration successful! Thank you for joining our community."
         );
         setMessageType("success");
-        setTimeout(() => navigate("/blood_donar"), 2000);
+        setTimeout(() => {
+          navigate("/donor/profile", { state: { donor: data } });
+        }, 2000);
       } else {
         setMessage(data.message || "Registration failed. Please try again.");
         setMessageType("danger");
@@ -306,7 +304,7 @@ const DonorRegistration = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
@@ -320,7 +318,7 @@ const DonorRegistration = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      required
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
@@ -614,18 +612,18 @@ const DonorRegistration = () => {
                     </Form.Group>
                   </Col>
                   <Col md={4}>
-                   <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                       <Form.Label>Alcohol Consumption</Form.Label>
-                    <Form.Select
-                      name="alcoholConsumption"
-                      value={formData.alcoholConsumption}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select</option>
-                      <option value="No">Never</option>
-                      <option value="Occasionally">Occasionally</option>
-                      <option value="Regularly">Regularly</option>
-                    </Form.Select>
+                      <Form.Select
+                        name="alcoholConsumption"
+                        value={formData.alcoholConsumption}
+                        onChange={handleChange}
+                      >
+                        <option value="">Select</option>
+                        <option value="No">Never</option>
+                        <option value="Occasionally">Occasionally</option>
+                        <option value="Regularly">Regularly</option>
+                      </Form.Select>
                     </Form.Group>
                   </Col>
                   {formData.gender === "female" && (

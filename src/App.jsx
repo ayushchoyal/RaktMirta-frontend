@@ -17,6 +17,7 @@ import Information from "./component/Information.jsx";
 import AdminPage from "./admin/AdminPage.jsx";
 import ProtectedRoute from "./component/ProtectedRoute.jsx";
 import DonorRegistration from "./component/DonorRegistration.jsx";
+import DonorProfile from "./component/DonorProfile.jsx";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -49,7 +50,8 @@ function App() {
             {/* Public Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
-
+            <Route path="/info" element={<Information />} />
+            <Route path="/" element={<Home/>}/>
             {/* User Routes */}
             {role !== "ADMIN" && isLoggedIn && (
               <>
@@ -61,6 +63,7 @@ function App() {
                   path="/donor-registration"
                   element={<DonorRegistration />}
                 />
+                <Route path="/donor/profile" element={<DonorProfile />} />
               </>
             )}
 

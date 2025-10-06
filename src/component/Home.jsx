@@ -44,7 +44,7 @@ const Home = () => {
               </p>
               <div className="mt-4">
                 <a
-                  href="/donor-registration"
+                  href="/donor/profile"
                   className="btn btn-danger btn-lg me-3 shadow-sm"
                 >
                   Donate Blood
