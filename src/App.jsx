@@ -15,6 +15,7 @@ import DonorRegistration from "./component/DonorRegistration.jsx";
 import DonorProfile from "./component/DonorProfile.jsx";
 import BankForm from "./admin/BankForm.jsx";
 import BloodBanks from "./admin/BloodBanks.jsx";
+import BloodBanksList from "./component/BloodBanksList.jsx";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -48,6 +49,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
             <Route path="/info" element={<Information />} />
+            <Route path="/bloodbanks" element={<BloodBanksList />} />
 
             {/* User Routes */}
             {isLoggedIn && role !== "ADMIN" && (

@@ -40,7 +40,7 @@ const BankForm = ({ onSubmit }) => {
           city: "",
           state: "",
           pincode: "",
-          imageUrl: "",
+          phone: "",
         });
         if (onSubmit) onSubmit();
       } else {
@@ -118,6 +118,16 @@ const BankForm = ({ onSubmit }) => {
               value={bank.pincode}
               onChange={handleChange}
               required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Phone</label>
+            <input
+              type="text"
+              className="form-control"
+              name="phone"
+              value={bank.phone}
+              onChange={handleChange}
             />
           </div>
 
