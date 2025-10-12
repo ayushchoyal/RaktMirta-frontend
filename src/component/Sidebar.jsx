@@ -26,7 +26,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           {isOpen && "Home"}
         </Nav.Link>
 
-        <Nav.Link href="/blood_donar" className="text-white d-flex align-items-center mb-3">
+        <Nav.Link href="/blood_donor" className="text-white d-flex align-items-center mb-3">
           <FaHandHoldingHeart className="me-2" />
           {isOpen && "Donors"}
         </Nav.Link>

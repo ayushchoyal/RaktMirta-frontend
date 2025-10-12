@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const BankForm = ({ onSubmit }) => {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [bank, setBank] = useState({
     bankName: "",
     address: "",
@@ -54,6 +56,9 @@ const BankForm = ({ onSubmit }) => {
 
   return (
     <div className="container mt-5">
+       <button className="btn btn-secondary mb-3" onClick={() => navigate(-1)}>
+        Back{" "}
+      </button>
       <div className="card shadow-sm p-4 mx-auto" style={{ maxWidth: "600px" }}>
         <h3 className="text-center mb-4 text-primary">
           Bank Registration Form

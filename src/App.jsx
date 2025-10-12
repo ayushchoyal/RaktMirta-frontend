@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import Navbar from "./component/Navbar.jsx";
 import Home from "./component/Home.jsx";
-import Donar from "./component/Donar.jsx";
+import Donor from "./component/Donor.jsx";
 import DonorDetails from "./component/DonorDetails.jsx";
 import Login from "./component/Login.jsx";
 import Registration from "./component/Registration.jsx";
 import Sidebar from "./component/Sidebar.jsx";
 import Information from "./component/Information.jsx";
 import AdminPage from "./admin/AdminPage.jsx";
-import ProtectedRoute from "./component/ProtectedRoute.jsx";
 import DonorRegistration from "./component/DonorRegistration.jsx";
 import DonorProfile from "./component/DonorProfile.jsx";
 import BankForm from "./admin/BankForm.jsx";
@@ -22,57 +26,101 @@ function App() {
   const role = localStorage.getItem("role"); // "ADMIN" or "USER"
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
+  // Sidebar shows only for users or guests
+  const showSidebar = !isLoggedIn || role === "USER";
+
   return (
     <Router>
       {/* Navbar */}
-       <div className="fixed-top w-100">
+      <div className="fixed-top w-100">
         <Navbar />
       </div>
-      <br /><br /><br />
+
+      {/* Space for fixed navbar */}
+      <br />
+      <br />
+      <br />
 
       <div style={{ display: "flex" }}>
-        {/* Sidebar only for users */}
-        {isLoggedIn && role !== "ADMIN" && (
+        {/* Sidebar for guests and users */}
+        {showSidebar && (
           <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         )}
 
-        {/* Main content */}
+        {/* Main content area */}
         <div
           className="flex-grow-1 p-3"
           style={{
-            marginLeft: isLoggedIn && role !== "ADMIN" ? (isSidebarOpen ? "220px" : "60px") : "0px",
+            marginLeft: showSidebar
+              ? isSidebarOpen
+                ? "220px"
+                : "60px"
+              : "0px",
             transition: "margin-left 0.3s ease",
           }}
         >
           <Routes>
-            {/* Public Routes */}
+            {isLoggedIn && role === "ADMIN" && (
+              <>
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/admin/bankform" element={<BankForm />} />
+                <Route path="/admin/bloodbank" element={<BloodBanks />} />
+                {/* Optional: redirect / to /admin for admins */}
+                <Route path="/" element={<Navigate to="/admin" replace />} />
+              </>
+            )}
+
+            {/* 🌍 Public Routes */}
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
             <Route path="/info" element={<Information />} />
             <Route path="/bloodbanks" element={<BloodBanksList />} />
 
-            {/* User Routes */}
-            {isLoggedIn && role !== "ADMIN" && (
-              <>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/blood_donar" element={<Donar />} />
-                <Route path="/donor/:id" element={<DonorDetails />} />
-                <Route path="/donor-registration" element={<DonorRegistration />} />
-                <Route path="/donor/profile" element={<DonorProfile />} />
-                <Route path="/info" element={<Information />} />
-              </>
-            )}
+            {/* 👤 User Pages */}
+            <Route
+              path="/blood_donor"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <Donor />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/donor/:id"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <DonorDetails />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/donor-registration"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <DonorRegistration />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/donor/profile"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <DonorProfile />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
 
-            {/* Admin Routes */}
-            {isLoggedIn && role === "ADMIN" && (
-              <>
-                <Route path="/" element={<AdminPage />} />
-                <Route path="/admin" element={<AdminPage />} />
-                <Route path="/admin/bankform" element={<BankForm />} />
-                <Route path="/admin/bloodbanks" element={<BloodBanks />} />
-              </>
-            )}
+           
+
           </Routes>
         </div>
       </div>

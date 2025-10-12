@@ -2,21 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Donor = () => {
-  const [donors, setDonors] = useState([]);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // ✅ Check authentication before rendering
+  const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const token = localStorage.getItem("token");
+
+  if (!loggedIn || !token) {
+    // Redirect immediately if not logged in
+    navigate("/login");
+    return null; // Prevent rendering rest of component
+  }
+
+  const [donors, setDonors] = useState([]);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    // Check if user is logged in
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const token = localStorage.getItem("token");
-
-    if (!loggedIn || !token) {
-      navigate("/login"); // redirect if not logged in
-      return;
-    }
-
-    // Fetch donors from backend
+    // ✅ Fetch donors from backend when logged in
     const fetchDonors = async () => {
       try {
         const response = await fetch("http://localhost:8080/user/donor", {
@@ -27,8 +29,12 @@ const Donor = () => {
           },
         });
 
-        if (!response.ok) {
+        if (response.status === 403) {
           throw new Error("Forbidden. You do not have access.");
+        }
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch donor data.");
         }
 
         const data = await response.json();
@@ -41,27 +47,26 @@ const Donor = () => {
     };
 
     fetchDonors();
-  }, [navigate]);
+  }, [token]);
 
+  // ✅ Error display
   if (error) {
     return (
       <div className="container py-5">
-        {" "}
-        <h2 className="text-center text-danger">{error}</h2>{" "}
+        <h2 className="text-center text-danger">{error}</h2>
       </div>
     );
   }
 
+  // ✅ Donor list UI
   return (
-    <div className="container py-2">
+    <div className="container py-4">
       {donors.length === 0 ? (
-        
         <p className="text-center">No donors available at the moment.</p>
       ) : (
         <div className="row g-4">
           {donors.map((donor) => (
             <div key={donor.id} className="col-md-4 col-sm-6">
-              {" "}
               <div className="card shadow border-0 h-100">
                 {donor.imageUrl ? (
                   <img
@@ -86,34 +91,32 @@ const Donor = () => {
                       borderRadius: "4px",
                     }}
                   >
-                    {donor.name?.charAt(0).toUpperCase()}{" "}
+                    {donor.name?.charAt(0).toUpperCase()}
                   </div>
-                )}{" "}
+                )}
+
                 <div className="card-body text-center">
-                  {" "}
                   <h5 className="card-title text-danger fw-bold">
                     {donor.name}
-                  </h5>{" "}
+                  </h5>
                   <p className="card-text mb-1">
-                    {" "}
-                    <strong>Blood Group:</strong> {donor.bloodGroup}{" "}
-                  </p>{" "}
+                    <strong>Blood Group:</strong> {donor.bloodGroup}
+                  </p>
                   <p className="card-text mb-1">
-                    {" "}
-                    <strong>City:</strong> {donor.city} ({donor.state}){" "}
+                    <strong>City:</strong> {donor.city} ({donor.state})
                   </p>
                   <button
                     className="btn btn-danger w-100 mt-2"
                     onClick={() => navigate(`/donor/${donor.id}`)}
                   >
-                    View Profile{" "}
-                  </button>{" "}
-                </div>{" "}
-              </div>{" "}
+                    View Profile
+                  </button>
+                </div>
+              </div>
             </div>
-          ))}{" "}
+          ))}
         </div>
-      )}{" "}
+      )}
     </div>
   );
 };

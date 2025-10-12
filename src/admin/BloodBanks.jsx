@@ -1,9 +1,12 @@
 
 import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const BloodBanks = () => {
   const [banks, setBanks] = useState([]);
+  const navigate = useNavigate();
+
 
   // Fetch all banks
   const fetchBanks = async () => {
@@ -62,6 +65,9 @@ const BloodBanks = () => {
 
   return (
     <div className="container mt-5">
+      <button className="btn btn-secondary mb-3" onClick={() => navigate(-1)}>
+        Back{" "}
+      </button>
       <h2 className="mb-4 text-primary text-center">All Blood Banks</h2>
       <div className="row">
         {banks.length === 0 ? (
