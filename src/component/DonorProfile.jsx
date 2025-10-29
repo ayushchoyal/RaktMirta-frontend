@@ -56,9 +56,7 @@ const DonorProfile = () => {
   if (!emailExists) {
     return (
       <div className="mt-10">
-        <h2 className="text-2xl font-bold text-center text-red-600 mb-4">
-          Donor not found — Please Register
-        </h2>
+        
         <DonorRegistration />
       </div>
     );

@@ -20,13 +20,13 @@ import DonorProfile from "./component/DonorProfile.jsx";
 import BankForm from "./admin/BankForm.jsx";
 import BloodBanks from "./admin/BloodBanks.jsx";
 import BloodBanksList from "./component/BloodBanksList.jsx";
+import ViewDonors from "./admin/ViewDonor.jsx";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const role = localStorage.getItem("role"); // "ADMIN" or "USER"
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-  // Sidebar shows only for users or guests
   const showSidebar = !isLoggedIn || role === "USER";
 
   return (
@@ -47,7 +47,7 @@ function App() {
           <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         )}
 
-        {/* Main content area */}
+        {/* Main content */}
         <div
           className="flex-grow-1 p-3"
           style={{
@@ -60,24 +60,67 @@ function App() {
           }}
         >
           <Routes>
-            {isLoggedIn && role === "ADMIN" && (
-              <>
-                <Route path="/admin" element={<AdminPage />} />
-                <Route path="/admin/bankform" element={<BankForm />} />
-                <Route path="/admin/bloodbank" element={<BloodBanks />} />
-                {/* Optional: redirect / to /admin for admins */}
-                <Route path="/" element={<Navigate to="/admin" replace />} />
-              </>
-            )}
+            {/* ---------- ADMIN ROUTES ---------- */}
+            <Route
+              path="/admin"
+              element={
+                isLoggedIn && role === "ADMIN" ? (
+                  <AdminPage />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/admin/bankform"
+              element={
+                isLoggedIn && role === "ADMIN" ? (
+                  <BankForm />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/admin/bloodbanks"
+              element={
+                isLoggedIn && role === "ADMIN" ? (
+                  <BloodBanks />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/admin/donors"
+              element={
+                isLoggedIn && role === "ADMIN" ? (
+                  <ViewDonors />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
 
-            {/* 🌍 Public Routes */}
-            <Route path="/" element={<Home />} />
+            {/* ---------- PUBLIC ROUTES ---------- */}
+             <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
             <Route path="/info" element={<Information />} />
             <Route path="/bloodbanks" element={<BloodBanksList />} />
 
-            {/* 👤 User Pages */}
+            {/* ---------- USER ROUTES (protected) ---------- */}
+            <Route
+              path="/user/home"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <Home />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
             <Route
               path="/blood_donor"
               element={
@@ -119,8 +162,21 @@ function App() {
               }
             />
 
-           
-
+            {/* ---------- FALLBACK ---------- */}
+            <Route
+              path="*"
+              element={
+                isLoggedIn ? (
+                  role === "ADMIN" ? (
+                    <Navigate to="/admin" replace />
+                  ) : (
+                    <Navigate to="/user/home" replace />
+                  )
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
           </Routes>
         </div>
       </div>

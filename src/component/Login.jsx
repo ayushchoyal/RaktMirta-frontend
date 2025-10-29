@@ -29,7 +29,7 @@ const Login = () => {
           if (data.user.role === "ADMIN") {
             navigate("/admin");
           } else {
-            navigate("/");
+            navigate("/user/home");
           }
         } else {
           setMessage(data.message || "Login failed");
