@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Donor = () => {
+const DonorList = () => {
   const navigate = useNavigate();
   const [donors, setDonors] = useState([]);
   const [error, setError] = useState(null);
@@ -121,4 +121,4 @@ const Donor = () => {
   );
 };
 
-export default Donor;
+export default DonorList;

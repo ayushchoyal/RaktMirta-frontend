@@ -27,9 +27,9 @@ const Navbar = () => {
       <div className="container d-flex justify-content-between align-items-center">
         {/* Brand */}
         <div className="d-flex flex-column">
-          <a className="navbar-brand fw-bold text-danger fs-4 mb-0" href="/">
+          <p className="navbar-brand fw-bold text-danger fs-4 mb-0" >
             🩸 RaktMitra
-          </a>
+          </p>
           <small
             className="text-danger"
             style={{ marginTop: "-5px", marginLeft: "12px" }}

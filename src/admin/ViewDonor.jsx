@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   Spinner,
@@ -7,19 +8,34 @@ import {
   Row,
   Col,
   Badge,
+  Button,
 } from "react-bootstrap";
-import { FaPhoneAlt, FaTint, FaMapMarkerAlt, FaUserAlt } from "react-icons/fa";
-
+import { FaPhoneAlt, FaTint, FaMapMarkerAlt, FaUserAlt, FaArrowLeft } from "react-icons/fa";
 
 const ViewDonor = () => {
   const [donors, setDonors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const token = localStorage.getItem("token");
+
+    if (!loggedIn || !token) {
+      navigate("/login");
+      return;
+    }
+
     const fetchDonors = async () => {
       try {
-        const response = await fetch("http://localhost:8080/admin/donors");
+        const response = await fetch("http://localhost:8080/admin/donors", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`Error ${response.status}: Unable to fetch donors`);
@@ -35,9 +51,14 @@ const ViewDonor = () => {
     };
 
     fetchDonors();
-  }, []);
+  }, [navigate]);
 
-  // Loading state
+  const getInitial = (name) => {
+    if (!name) return "D";
+    return name.charAt(0).toUpperCase();
+  };
+
+  // Loading
   if (loading) {
     return (
       <div className="text-center mt-5">
@@ -47,7 +68,7 @@ const ViewDonor = () => {
     );
   }
 
-  // Error state
+  // Error
   if (error) {
     return (
       <Alert variant="danger" className="m-3 text-center">
@@ -59,9 +80,20 @@ const ViewDonor = () => {
   // Main UI
   return (
     <Container className="mt-4">
-      <h2 className="text-center text-danger fw-bold mb-4">
-        🩸 RaktMitra Donor Directory
-      </h2>
+      {/* === Back Button === */}
+      <div className="d-flex justify-content-start mb-3">
+        <Button
+          variant="outline-danger"
+          onClick={() => navigate(-1)}
+          className="fw-semibold"
+        >
+          <FaArrowLeft className="me-2" />
+          Back
+        </Button>
+      </div>
+
+      {/* === Title === */}
+    
 
       {donors.length === 0 ? (
         <Alert variant="info" className="text-center">
@@ -72,17 +104,23 @@ const ViewDonor = () => {
           {donors.map((donor) => (
             <Col key={donor.id}>
               <Card className="donor-card shadow-lg h-100 border-0 rounded-4">
-                {/* === Donor Image === */}
+                {/* === Donor Image or Initial === */}
                 <div className="image-container">
-                  <img
-                    src={donor.imageUrl || "/donor.png"}
-                    alt="donor"
-                    className="donor-image"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/donor.png";
-                    }}
-                  />
+                  {donor.imageUrl ? (
+                    <img
+                      src={donor.imageUrl}
+                      alt="donor"
+                      className="donor-image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/donor.png";
+                      }}
+                    />
+                  ) : (
+                    <div className="donor-initial-circle">
+                      {getInitial(donor.name)}
+                    </div>
+                  )}
                 </div>
 
                 {/* === Donor Details === */}
@@ -116,14 +154,14 @@ const ViewDonor = () => {
                       </div>
                     </div>
 
-                    <div className="mt-3 text-center">
+                    {/* <div className="mt-3 text-center">
                       <Badge
                         bg={donor.status ? "success" : "secondary"}
                         className="p-2"
                       >
                         {donor.status ? "Available" : "Unavailable"}
                       </Badge>
-                    </div>
+                    </div> */}
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -158,6 +196,20 @@ const ViewDonor = () => {
             width: 60%;
             height: 100%;
             object-fit: contain;
+          }
+
+          .donor-initial-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #dc3545;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
           }
 
           .card-title {
