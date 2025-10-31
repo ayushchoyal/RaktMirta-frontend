@@ -8,7 +8,7 @@ import {
 
 import Navbar from "./component/Navbar.jsx";
 import Home from "./component/Home.jsx";
-import Donor from "./component/Donor.jsx";
+import DonorList from "./component/DonorList.jsx";
 import DonorDetails from "./component/DonorDetails.jsx";
 import Login from "./component/Login.jsx";
 import Registration from "./component/Registration.jsx";
@@ -21,6 +21,7 @@ import BankForm from "./admin/BankForm.jsx";
 import BloodBanks from "./admin/BloodBanks.jsx";
 import BloodBanksList from "./component/BloodBanksList.jsx";
 import ViewDonors from "./admin/ViewDonor.jsx";
+
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -125,7 +126,7 @@ function App() {
               path="/blood_donor"
               element={
                 isLoggedIn && role === "USER" ? (
-                  <Donor />
+                  <DonorList />
                 ) : (
                   <Navigate to="/login" replace />
                 )

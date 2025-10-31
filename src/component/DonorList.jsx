@@ -3,29 +3,30 @@ import { useNavigate } from "react-router-dom";
 
 const Donor = () => {
   const navigate = useNavigate();
-
-  // ✅ Check authentication before rendering
-  const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const token = localStorage.getItem("token");
-
-  if (!loggedIn || !token) {
-    // Redirect immediately if not logged in
-    navigate("/login");
-    return null; // Prevent rendering rest of component
-  }
-
   const [donors, setDonors] = useState([]);
   const [error, setError] = useState(null);
 
+  const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const token = localStorage.getItem("token");
+
+  // ✅ Redirect if not logged in
   useEffect(() => {
-    // ✅ Fetch donors from backend when logged in
+    if (!loggedIn || !token) {
+      navigate("/login");
+    }
+  }, [loggedIn, token, navigate]);
+
+  // ✅ Fetch donors
+  useEffect(() => {
+    if (!token) return;
+
     const fetchDonors = async () => {
       try {
         const response = await fetch("http://localhost:8080/user/donor", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // send JWT token
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -38,8 +39,9 @@ const Donor = () => {
         }
 
         const data = await response.json();
-        const activeDonors = data.filter((donor) => donor.status === true);
-        setDonors(activeDonors);
+
+        // ✅ Show all donors (you can filter active ones later)
+        setDonors(data);
       } catch (err) {
         console.error("Error fetching donors:", err);
         setError(err.message);
@@ -96,14 +98,12 @@ const Donor = () => {
                 )}
 
                 <div className="card-body text-center">
-                  <h5 className="card-title text-danger fw-bold">
-                    {donor.name}
-                  </h5>
+                  <h5 className="card-title text-danger fw-bold">{donor.name}</h5>
                   <p className="card-text mb-1">
                     <strong>Blood Group:</strong> {donor.bloodGroup}
                   </p>
                   <p className="card-text mb-1">
-                    <strong>City:</strong> {donor.city} ({donor.state})
+                    <strong>Address:</strong> {donor.address}
                   </p>
                   <button
                     className="btn btn-danger w-100 mt-2"

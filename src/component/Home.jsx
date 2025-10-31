@@ -61,7 +61,7 @@ const Home = () => {
             {/* Right side image */}
             <div className="col-md-6 text-center mt-4 mt-md-0">
               <img
-                src="bloodbanner1.jpg"
+                src="/bloodbanner1.jpg"
                 alt="Blood Donation Banner"
                 className="img-fluid rounded shadow-lg"
                 style={{ maxHeight: "420px" }}
@@ -145,7 +145,7 @@ const Home = () => {
           </p>
           <div className="d-flex justify-content-center">
             <img
-              src="RaktMitra Certificate.png"
+              src="/RaktMitra Certificate.png"
               alt="Donor Certificate"
               className="img-fluid shadow-lg rounded certificate-img"
               style={{ maxWidth: "400px" }}

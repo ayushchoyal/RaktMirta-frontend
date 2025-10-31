@@ -26,8 +26,12 @@ const DonorDetails = () => {
           },
         });
 
-        if (!response.ok) {
+        if (response.status === 403) {
           throw new Error("Forbidden. You do not have access.");
+        }
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch donor details.");
         }
 
         const data = await response.json();
@@ -44,8 +48,7 @@ const DonorDetails = () => {
   if (error) {
     return (
       <div className="container py-5">
-        {" "}
-        <h2 className="text-center text-danger">{error}</h2>{" "}
+        <h2 className="text-center text-danger">{error}</h2>
       </div>
     );
   }
@@ -53,9 +56,9 @@ const DonorDetails = () => {
   if (!donor) return <p className="text-center mt-5">Loading donor info...</p>;
 
   return (
-    <div className="container py-2">
+    <div className="container py-4">
       <button className="btn btn-secondary mb-3" onClick={() => navigate(-1)}>
-        Back{" "}
+        ← Back
       </button>
 
       <div className="card shadow border-0 p-4">
@@ -64,16 +67,17 @@ const DonorDetails = () => {
         </h2>
 
         <div className="row align-items-center">
+          {/* ✅ Donor Image or Initial */}
           <div className="col-md-5 text-center mb-4">
             {donor.imageUrl ? (
               <img
-                src={`/${donor.imageUrl}`}
+                src={donor.imageUrl}
                 alt={donor.name}
                 className="card-img-top"
                 style={{
                   height: "300px",
                   width: "70%",
-                  borderRadius: "4px",
+                  borderRadius: "8px",
                   margin: "10px auto 0",
                   objectFit: "cover",
                 }}
@@ -85,7 +89,7 @@ const DonorDetails = () => {
                   height: "250px",
                   fontSize: "80px",
                   fontWeight: "bold",
-                  borderRadius: "4px",
+                  borderRadius: "8px",
                 }}
               >
                 {donor.name?.charAt(0).toUpperCase()}
@@ -93,8 +97,9 @@ const DonorDetails = () => {
             )}
           </div>
 
+          {/* ✅ Donor Info */}
           <div className="col-md-6">
-            <p className="d-flex justify-content-between align-items-center mb-2">
+            <p className="d-flex justify-content-between mb-2">
               <span>
                 <strong>Gender:</strong> {donor.gender}
               </span>
@@ -103,21 +108,43 @@ const DonorDetails = () => {
               </span>
             </p>
 
-            <p className="d-flex justify-content-between align-items-center mb-2">
+            <p className="d-flex justify-content-between mb-2">
               <span>
-                <strong>Food Preference:</strong> {donor.food}
+                <strong>Food Preference:</strong> {donor.foodPreference}
+                <strong>Contact:</strong> {donor.phone || "N/A"}
               </span>
               <span>
-                <strong>Age:</strong> {donor.age}
+                <strong>Date of Birth:</strong>{" "}
+                {donor.dob ? new Date(donor.dob).toLocaleDateString() : "N/A"}
               </span>
             </p>
 
             <p>
-              <strong>City:</strong> {donor.city} ({donor.state})
+              <strong>Address:</strong> {donor.address}
             </p>
+
             <p>
-              <strong>Contact:</strong> {donor.phone || "N/A"}
+              <strong>Food Preference:</strong> {donor.foodPreference}
             </p>
+
+            {donor.alcoholConsumption !== undefined && (
+              <p>
+                <strong>Alcohol Consumption:</strong>{" "}
+                {donor.alcoholConsumption === "yes" ||
+                donor.alcoholConsumption === true
+                  ? "Yes"
+                  : "No"}
+              </p>
+            )}
+
+            {donor.smokingStatus !== undefined && (
+              <p>
+                <strong>Smoking Status:</strong>{" "}
+                {donor.smokingStatus === "yes" || donor.smokingStatus === true
+                  ? "Yes"
+                  : "No"}
+              </p>
+            )}
           </div>
         </div>
       </div>
