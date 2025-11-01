@@ -21,6 +21,9 @@ import BankForm from "./admin/BankForm.jsx";
 import BloodBanks from "./admin/BloodBanks.jsx";
 import BloodBanksList from "./component/BloodBanksList.jsx";
 import ViewDonors from "./admin/ViewDonor.jsx";
+import PatientRegistration from "./component/PatientRegistration.jsx";
+import PatientList from "./component/PatientList.jsx";
+import ViewPatients from "./admin/ViewPatients.jsx";  
 
 
 function App() {
@@ -102,12 +105,23 @@ function App() {
                 )
               }
             />
+             <Route
+              path="/admin/patients"
+              element={
+                isLoggedIn && role === "ADMIN" ? (
+                  <ViewPatients />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
 
             {/* ---------- PUBLIC ROUTES ---------- */}
              <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
+            <Route path="/patients" element={<PatientList />} />
             <Route path="/info" element={<Information />} />
             <Route path="/bloodbanks" element={<BloodBanksList />} />
 
@@ -152,6 +166,17 @@ function App() {
                 )
               }
             />
+             <Route
+              path="/patient-registration"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <PatientRegistration />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            
             <Route
               path="/donor/profile"
               element={

@@ -50,7 +50,7 @@ const Home = () => {
                   Donate Blood
                 </a>
                 <a
-                  href="/blood_donar"
+                  href="/patient-registration"
                   className="btn btn-outline-danger btn-lg shadow-sm"
                 >
                   Request Blood
