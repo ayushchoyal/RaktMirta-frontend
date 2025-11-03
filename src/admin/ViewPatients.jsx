@@ -100,10 +100,7 @@ const ViewPatient = () => {
         </Button>
       </div>
 
-      {/* === Title === */}
-      <h3 className="text-center text-danger fw-bold mb-4">
-        Registered Patients
-      </h3>
+
 
       {patients.length === 0 ? (
         <Alert variant="info" className="text-center">

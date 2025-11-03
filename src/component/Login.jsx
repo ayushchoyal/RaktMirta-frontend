@@ -44,7 +44,7 @@ const Login = () => {
             } else {
               window.location.href = "/user/home";
             }
-          }, 1000);
+          }, 500);
         } else {
           setLoading(false);
           setMessage(data.message || "❌ Invalid email or password");
