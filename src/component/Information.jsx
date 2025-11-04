@@ -243,7 +243,7 @@ const Information = () => {
                   <FaUtensils className="me-2" /> Before Donation Preparation
                 </Card.Title>
                 <ul className="mt-3">
-                  <li><FaWater className="text-primary me-2" />Drink <strong>extra 500ml water</strong> 2 hours before</li>
+                  <li>Drink <strong>extra 500ml water</strong> 2 hours before</li>
                   <li>Eat a <strong>healthy, iron-rich meal</strong> 3-4 hours before donation</li>
                   <li>Avoid <strong>fatty foods</strong> for 24 hours before donation</li>
                   <li>Get <strong>adequate sleep</strong> the night before</li>
@@ -262,7 +262,7 @@ const Information = () => {
                   <FaBed className="me-2" /> After Donation Care
                 </Card.Title>
                 <ul className="mt-3">
-                  <li><FaWater className="text-primary me-2" />Drink <strong>plenty of fluids</strong> for 24-48 hours</li>
+                  <li>Drink <strong>plenty of fluids</strong> for 24-48 hours</li>
                   <li>Keep the <strong>bandage on for 4-5 hours</strong></li>
                   <li>Avoid <strong>heavy lifting</strong> for 24 hours</li>
                   <li>No <strong>smoking or alcohol</strong> for 24 hours</li>
