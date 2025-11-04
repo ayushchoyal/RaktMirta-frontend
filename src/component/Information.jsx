@@ -1,137 +1,114 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import {
+  FaHeartbeat,
+  FaUserCheck,
+  FaBan,
+  FaNotesMedical,
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+} from "react-icons/fa";
 
 const Information = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      offset: 150,
+      easing: "ease-in-out",
+      mirror: true, // animate in reverse when scrolling out
+    });
+  }, []);
+
   return (
     <>
       <div>
-        <Container className="mt-4">
-          <h2 className="text-center text-danger fw-bold mb-4">
-            Blood Donation Guidelines
-          </h2>
-          <p className="text-center text-muted mb-5">
-            The following information is based on standard medical guidelines
-            and is reviewed by certified doctors. Please consult a physician for
-            personal advice before donating blood.
-          </p>
+        <Container className="mt-5 mb-5">
+          {/* ===== Heading Section ===== */}
+          <div data-aos="zoom-in-down">
+            <h2 className="text-center text-danger fw-bold mb-3">
+              <FaHeartbeat className="me-2" />
+              Blood Donation Guidelines
+            </h2>
+            <p className="text-center text-secondary mb-5">
+              A simple act of kindness can save a life. Learn when and how you can safely donate blood.
+            </p>
+          </div>
 
+          {/* ===== Eligibility & Restrictions ===== */}
           <Row className="g-4">
-            {/* Eligibility */}
-            <Col md={6}>
-              <Card className="shadow border-0 h-100">
+            <Col md={6} data-aos="fade-right" data-aos-delay="100">
+              <Card className="shadow-lg border-0 h-100 rounded-4 info-card">
                 <Card.Body>
                   <Card.Title className="text-success fw-bold">
-                    ✅ Eligibility to Donate
+                    <FaUserCheck className="me-2" /> Who Can Donate
                   </Card.Title>
-                  <Card.Text as="div" className="mt-3">
-                    <ul>
-                      <li>
-                        Age: <strong>18 to 65 years</strong>
-                      </li>
-                      <li>
-                        Weight: Minimum <strong>50 kg</strong>
-                      </li>
-                      <li>
-                        Hemoglobin: Minimum <strong>12.5 g/dl</strong>
-                      </li>
-                      <li>Pulse: Normal (60–100 beats/min)</li>
-                      <li>
-                        Blood Pressure: Systolic 100–140 mm Hg, Diastolic 60–90
-                        mm Hg
-                      </li>
-                      <li>
-                        Gap after last donation: At least{" "}
-                        <strong>3 months (men)</strong> /{" "}
-                        <strong>4 months (women)</strong>
-                      </li>
-                    </ul>
-                  </Card.Text>
+                  <ul className="mt-3">
+                    <li>Age: <strong>18–65 years</strong></li>
+                    <li>Weight: <strong>Above 50 kg</strong></li>
+                    <li>Hemoglobin: <strong>12.5 g/dl or more</strong></li>
+                    <li>Pulse: Normal (60–100 bpm)</li>
+                    <li>Blood Pressure: <strong>100–140 / 60–90 mm Hg</strong></li>
+                    <li>Donation gap: <strong>3 months (men)</strong>, <strong>4 months (women)</strong></li>
+                  </ul>
                 </Card.Body>
               </Card>
             </Col>
 
-            {/* Ineligibility */}
-            <Col md={6}>
-              <Card className="shadow border-0 h-100">
+            <Col md={6} data-aos="fade-left" data-aos-delay="200">
+              <Card className="shadow-lg border-0 h-100 rounded-4 info-card">
                 <Card.Body>
                   <Card.Title className="text-danger fw-bold">
-                    ❌ Who Cannot Donate
+                    <FaBan className="me-2" /> Who Should Avoid Donating
                   </Card.Title>
-                  <Card.Text as="div" className="mt-3">
-                    <ul>
-                      <li>
-                        History of{" "}
-                        <strong>
-                          HIV, Hepatitis B/C, Syphilis, Malaria
-                        </strong>
-                      </li>
-                      <li>
-                        Chronic diseases:{" "}
-                        <strong>
-                          heart, kidney, liver disorders, uncontrolled diabetes
-                        </strong>
-                      </li>
-                      <li>Pregnant, breastfeeding, or menstruating women</li>
-                      <li>
-                        Recent major surgery or serious illness (within 6
-                        months)
-                      </li>
-                      <li>Active infections, fever, or recent vaccination</li>
-                      <li>History of drug abuse or high-risk behavior</li>
-                    </ul>
-                  </Card.Text>
+                  <ul className="mt-3">
+                    <li>People with <strong>HIV, Hepatitis B/C, or Malaria</strong></li>
+                    <li>Those with <strong>heart, kidney, or liver diseases</strong></li>
+                    <li>Pregnant, breastfeeding, or menstruating women</li>
+                    <li>Recent surgery or major illness (within 6 months)</li>
+                    <li>Active infections or fever</li>
+                    <li>Drug abuse or unsafe high-risk behavior</li>
+                  </ul>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
 
-          {/* Precautions */}
-          <Row className="mt-4">
-            <Col>
-              <Card className="shadow border-0">
+          {/* ===== Precautions Section ===== */}
+          <Row className="mt-5">
+            <Col data-aos="flip-up" data-aos-delay="300">
+              <Card className="shadow-lg border-0 rounded-4 info-card">
                 <Card.Body>
                   <Card.Title className="fw-bold text-primary">
-                    🩸 Precautions Before and After Donation
+                    <FaNotesMedical className="me-2" /> Before & After Donation Tips
                   </Card.Title>
-                  <Card.Text as="div" className="mt-3">
-                    <ul>
-                      <li>
-                        Have a light meal and drink plenty of water before
-                        donating.
-                      </li>
-                      <li>
-                        Avoid alcohol or smoking 24 hours before and after
-                        donation.
-                      </li>
-                      <li>Take rest for 10–15 minutes after donation.</li>
-                      <li>Do not lift heavy weights for 24 hours.</li>
-                      <li>
-                        If you feel dizzy, lie down and raise your legs
-                        slightly.
-                      </li>
-                    </ul>
-                  </Card.Text>
+                  <ul className="mt-3">
+                    <li>Eat a light, healthy meal before donating.</li>
+                    <li>Drink plenty of water before and after donation.</li>
+                    <li>Avoid alcohol or smoking for 24 hours.</li>
+                    <li>Rest 10–15 minutes after donation.</li>
+                    <li>Do not lift heavy weights for 24 hours.</li>
+                    <li>If dizzy, lie down and elevate your legs slightly.</li>
+                  </ul>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
 
-          {/* Doctor’s Note */}
-          <Row className="mt-4">
-            <Col>
-              <Card className="shadow border-0 bg-light">
+          {/* ===== Doctor’s Note ===== */}
+          <Row className="mt-5">
+            <Col data-aos="zoom-in-up" data-aos-delay="400">
+              <Card className="border-0 shadow bg-light rounded-4 info-card">
                 <Card.Body>
-                  <blockquote className="blockquote mb-0 text-center">
-                    <p>
-                      “Blood donation is a safe procedure when done under proper
-                      medical supervision. Every healthy person should consider
-                      donating regularly — one donation can save up to three
-                      lives.”
+                  <blockquote className="blockquote text-center mb-0">
+                    <p className="mb-2 fst-italic text-secondary">
+                      “Every drop counts. A simple donation from you today could save someone’s tomorrow.”
                     </p>
                     <footer className="blockquote-footer mt-2">
-                      Dr. Anjali Mehta, MD (Pathology) | Senior Blood Bank
-                      Officer
+                      Dr. Anjali Mehta, MD (Pathology) — Senior Blood Bank Officer
                     </footer>
                   </blockquote>
                 </Card.Body>
@@ -140,84 +117,71 @@ const Information = () => {
           </Row>
         </Container>
 
-        {/* Footer */}
+        {/* ===== Footer Section ===== */}
         <footer
           className="text-dark pt-5 pb-3 mt-5"
           style={{
-            background: "linear-gradient(90deg, #f5f7fa, #c3cfe2)",
+            background: "linear-gradient(90deg, #f8f9fa, #e3eeff)",
           }}
+          data-aos="fade-up"
+          data-aos-anchor-placement="top-bottom"
         >
-          <div className="container">
-            <div className="row">
-              {/* Brand & Tagline */}
-              <div className="col-md-4 mb-4">
-                <h4 className="fw-bold text-danger">🩸 RaktMitra</h4>
+          <Container>
+            <Row>
+              <Col md={4} className="mb-4" data-aos="fade-right">
+                <h4 className="fw-bold text-danger">RaktMitra</h4>
                 <p className="small text-muted">
-                  A platform that connects blood donors with those in need.
-                  Donate blood, save lives, and spread hope.
+                  RaktMitra connects donors and recipients through a secure and compassionate platform. Together, we save lives.
                 </p>
-              </div>
+              </Col>
 
-              {/* Quick Links */}
-              <div className="col-md-4 mb-4">
+              <Col md={4} className="mb-4" data-aos="zoom-in">
                 <h5 className="fw-bold text-danger">Quick Links</h5>
                 <ul className="list-unstyled">
-                  <li>
-                    <a href="/" className="text-dark text-decoration-none">
-                      Home
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/donor-registration"
-                      className="text-dark text-decoration-none"
-                    >
-                      Donate Blood
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/request"
-                      className="text-dark text-decoration-none"
-                    >
-                      Request Blood
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/about" className="text-dark text-decoration-none">
-                      About Us
-                    </a>
-                  </li>
+                  <li><a href="/" className="text-dark text-decoration-none">Home</a></li>
+                  <li><a href="/donor-registration" className="text-dark text-decoration-none">Donate Blood</a></li>
+                  <li><a href="/request" className="text-dark text-decoration-none">Request Blood</a></li>
+                  <li><a href="/about" className="text-dark text-decoration-none">About Us</a></li>
                 </ul>
-              </div>
+              </Col>
 
-              {/* Contact Info */}
-              <div className="col-md-4 mb-4">
+              <Col md={4} className="mb-4" data-aos="fade-left">
                 <h5 className="fw-bold text-danger">Contact Us</h5>
-                <p className="small mb-1">📍 Indore, Madhya Pradesh, India</p>
-                <p className="small mb-1">📧 support@raktmitra.org</p>
-                <p className="small">📞 +91 87876 87556</p>
+                <p className="small mb-1">Indore, Madhya Pradesh, India</p>
+                <p className="small mb-1">support@raktmitra.org</p>
+                <p className="small">+91 9755926645</p>
                 <div className="d-flex gap-3 mt-2">
-                  <a href="#" className="text-danger fs-5">
-                    <i className="bi bi-facebook"></i>
-                  </a>
-                  <a href="#" className="text-danger fs-5">
-                    <i className="bi bi-twitter"></i>
-                  </a>
-                  <a href="#" className="text-danger fs-5">
-                    <i className="bi bi-instagram"></i>
-                  </a>
+                  <a href="#" className="text-danger fs-5"><FaFacebook /></a>
+                  <a href="#" className="text-danger fs-5"><FaTwitter /></a>
+                  <a href="#" className="text-danger fs-5"><FaInstagram /></a>
                 </div>
-              </div>
-            </div>
+              </Col>
+            </Row>
 
             <hr />
             <div className="text-center small text-muted">
-              © {new Date().getFullYear()} RaktMitra. All rights reserved.
+              © {new Date().getFullYear()} <strong>RaktMitra</strong>. All rights reserved.
             </div>
-          </div>
+          </Container>
         </footer>
       </div>
+
+      {/* === Custom CSS === */}
+      <style>{`
+        .info-card {
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .info-card:hover {
+          transform: translateY(-10px) scale(1.02);
+          box-shadow: 0 10px 25px rgba(220, 53, 69, 0.25);
+        }
+
+        li {
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+      `}</style>
     </>
   );
 };

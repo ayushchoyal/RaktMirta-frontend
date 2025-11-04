@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Form, Button, Row, Col, Alert } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Form,
+  Button,
+  Row,
+  Col,
+  Alert,
+} from "react-bootstrap";
 
 const DonorRegistration = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+  const [preview, setPreview] = useState(null); // ✅ added
+  const [image, setImage] = useState(null); // ✅ added
 
   const [formData, setFormData] = useState({
     name: "",
@@ -13,6 +23,8 @@ const DonorRegistration = () => {
     phone: "",
     address: "",
     dob: "",
+    weight: "",
+    gender: "",
     bloodGroup: "",
     foodPreference: "vegetarian",
     smokingStatus: "no",
@@ -53,16 +65,35 @@ const DonorRegistration = () => {
     fetchUserData();
   }, [navigate]);
 
+  // ✅ handle image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  // ✅ handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ✅ handle submit (multipart for image)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic Validation
-    if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.dob || !formData.bloodGroup) {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.address ||
+      !formData.dob ||
+      !formData.weight ||
+      !formData.gender ||
+      !formData.bloodGroup
+    ) {
       setMessage("Please fill in all required fields.");
       setMessageType("danger");
       return;
@@ -75,13 +106,19 @@ const DonorRegistration = () => {
         return;
       }
 
+      // ✅ create FormData (multipart)
+      const dataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        dataToSend.append(key, value);
+      });
+      if (image) dataToSend.append("image", image);
+
       const response = await fetch("http://localhost:8080/user/register", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: dataToSend,
       });
 
       const data = await response.json();
@@ -89,15 +126,15 @@ const DonorRegistration = () => {
       if (response.ok) {
         setMessage("Registration successful!");
         setMessageType("success");
-
         setTimeout(() => {
           navigate("/donor/profile", { state: { donor: data } });
-        }, 1000); // Redirect after 1 sec
+        }, 1000);
       } else {
         setMessage(data.message || "Registration failed. Please try again.");
         setMessageType("danger");
       }
     } catch (error) {
+      console.error("Error:", error);
       setMessage("Network error. Please try again.");
       setMessageType("danger");
     }
@@ -107,7 +144,7 @@ const DonorRegistration = () => {
     <Container className="py-4">
       <Card className="shadow border-0">
         <Card.Header className="bg-danger text-white text-center">
-          <h2 className="mb-0"> Donor Registration</h2>
+          <h2 className="mb-0">Donor Registration</h2>
           <p className="mb-0 mt-2">Join our life-saving community</p>
         </Card.Header>
 
@@ -117,6 +154,28 @@ const DonorRegistration = () => {
               {message}
             </Alert>
           )}
+
+          {/* ✅ Profile image preview & upload */}
+          <Form.Group className="mb-4 text-center">
+            {preview && (
+              <div className="mb-3">
+                <img
+                  src={preview}
+                  alt="Profile Preview"
+                  width="120"
+                  height="120"
+                  className="rounded-circle border shadow-sm"
+                />
+              </div>
+            )}
+            <Form.Label>Profile Image</Form.Label>
+            <Form.Control
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </Form.Group>
 
           <Form onSubmit={handleSubmit}>
             <Row>
@@ -142,7 +201,6 @@ const DonorRegistration = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-
                   />
                 </Form.Group>
               </Col>
@@ -158,7 +216,6 @@ const DonorRegistration = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-
                   />
                 </Form.Group>
               </Col>
@@ -190,8 +247,7 @@ const DonorRegistration = () => {
               <Col md={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Gender *</Form.Label>
-                  <Form.Control
-                    as="select"
+                  <Form.Select
                     name="gender"
                     value={formData.gender}
                     onChange={handleChange}
@@ -201,7 +257,7 @@ const DonorRegistration = () => {
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
-                  </Form.Control>
+                  </Form.Select>
                 </Form.Group>
               </Col>
             </Row>
