@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Form, Button, Row, Col, Alert } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Form,
+  Button,
+  Row,
+  Col,
+  Alert,
+} from "react-bootstrap";
 
-const PatientRegistration = () => {
+const DonorRegistration = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+  const [preview, setPreview] = useState(null); // ✅ added
+  const [image, setImage] = useState(null); // ✅ added
 
   const [formData, setFormData] = useState({
     name: "",
@@ -13,15 +23,18 @@ const PatientRegistration = () => {
     phone: "",
     address: "",
     dob: "",
-    bloodGroup: "",
+    weight: "",
     gender: "",
-    emergencyContact: "",
+    bloodGroup: "",
+    foodPreference: "vegetarian",
+    smokingStatus: "no",
+    alcoholConsumption: "no",
   });
 
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
-  // ✅ Fetch logged-in user data
   useEffect(() => {
+    // Fetch user data if logged in
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -52,13 +65,22 @@ const PatientRegistration = () => {
     fetchUserData();
   }, [navigate]);
 
-  // ✅ Handle Input Changes
+  // ✅ handle image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  // ✅ handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Handle Form Submit
+  // ✅ handle submit (multipart for image)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -68,8 +90,9 @@ const PatientRegistration = () => {
       !formData.phone ||
       !formData.address ||
       !formData.dob ||
-      !formData.bloodGroup ||
-      !formData.gender
+      !formData.weight ||
+      !formData.gender ||
+      !formData.bloodGroup
     ) {
       setMessage("Please fill in all required fields.");
       setMessageType("danger");
@@ -83,41 +106,46 @@ const PatientRegistration = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8080/user/patient/register", {
+      // ✅ create FormData (multipart)
+      const dataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        dataToSend.append(key, value);
+      });
+      if (image) dataToSend.append("image", image);
+
+      const response = await fetch("http://localhost:8080/user/register", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: dataToSend,
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Patient registration successful!");
+        setMessage("Registration successful!");
         setMessageType("success");
-
         setTimeout(() => {
-          navigate("/patient/profile", { state: { patient: data } });
+          navigate("/donor/profile", { state: { donor: data } });
         }, 1000);
       } else {
         setMessage(data.message || "Registration failed. Please try again.");
         setMessageType("danger");
       }
     } catch (error) {
-      console.error("Error submitting patient data:", error);
+      console.error("Error:", error);
       setMessage("Network error. Please try again.");
       setMessageType("danger");
     }
   };
 
-  // ✅ JSX Layout
   return (
     <Container className="py-4">
       <Card className="shadow border-0">
         <Card.Header className="bg-danger text-white text-center">
-          <h2 className="mb-0"> Patient Registration</h2>
+          <h2 className="mb-0">Donor Registration</h2>
+          <p className="mb-0 mt-2">Join our life-saving community</p>
         </Card.Header>
 
         <Card.Body className="p-4">
@@ -127,8 +155,29 @@ const PatientRegistration = () => {
             </Alert>
           )}
 
+          {/* ✅ Profile image preview & upload */}
+          <Form.Group className="mb-4 text-center">
+            {preview && (
+              <div className="mb-3">
+                <img
+                  src={preview}
+                  alt="Profile Preview"
+                  width="120"
+                  height="120"
+                  className="rounded-circle border shadow-sm"
+                />
+              </div>
+            )}
+            <Form.Label>Profile Image</Form.Label>
+            <Form.Control
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </Form.Group>
+
           <Form onSubmit={handleSubmit}>
-            {/* Row 1: Name, Email */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -151,14 +200,13 @@ const PatientRegistration = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    
                     required
+                    readOnly
                   />
                 </Form.Group>
               </Col>
             </Row>
 
-            {/* Row 2: Phone, DOB */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -168,7 +216,6 @@ const PatientRegistration = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    
                     required
                   />
                 </Form.Group>
@@ -186,9 +233,48 @@ const PatientRegistration = () => {
                   />
                 </Form.Group>
               </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Weight *</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="weight"
+                    value={formData.weight}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Gender *</Form.Label>
+                  <Form.Select
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
             </Row>
 
-            {/* Row 3: Blood Group, Gender */}
+            <Form.Group className="mb-3">
+              <Form.Label>Address *</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={2}
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -211,36 +297,62 @@ const PatientRegistration = () => {
 
               <Col md={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Gender *</Form.Label>
-                  <Form.Select
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </Form.Select>
+                  <Form.Label>Food Preference *</Form.Label>
+                  <div>
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Vegetarian"
+                      name="foodPreference"
+                      value="vegetarian"
+                      checked={formData.foodPreference === "vegetarian"}
+                      onChange={handleChange}
+                    />
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Non-Vegetarian"
+                      name="foodPreference"
+                      value="non-vegetarian"
+                      checked={formData.foodPreference === "non-vegetarian"}
+                      onChange={handleChange}
+                    />
+                  </div>
                 </Form.Group>
               </Col>
             </Row>
 
-           
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Smoking Status</Form.Label>
+                  <Form.Select
+                    name="smokingStatus"
+                    value={formData.smokingStatus}
+                    onChange={handleChange}
+                  >
+                    <option value="no">No</option>
+                    <option value="occasional">Occasional</option>
+                    <option value="regular">Regular</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
 
-            {/* Row 5: Address */}
-            <Form.Group className="mb-3">
-              <Form.Label>Address *</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={2}
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Alcohol Consumption</Form.Label>
+                  <Form.Select
+                    name="alcoholConsumption"
+                    value={formData.alcoholConsumption}
+                    onChange={handleChange}
+                  >
+                    <option value="no">No</option>
+                    <option value="occasional">Occasional</option>
+                    <option value="regular">Regular</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
 
             <div className="text-center mt-4">
               <Button type="submit" variant="danger" size="lg" className="px-5">
@@ -254,4 +366,4 @@ const PatientRegistration = () => {
   );
 };
 
-export default PatientRegistration;
+export default DonorRegistration;

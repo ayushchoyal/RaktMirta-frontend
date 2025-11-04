@@ -71,7 +71,7 @@ const Home = () => {
                 today!
               </p>
               <div className="mt-4">
-                <a href="/donor/profile" className="btn btn-danger btn-lg me-3 shadow-sm">
+                <a href="/donor-registration" className="btn btn-danger btn-lg me-3 shadow-sm">
                   Donate Blood
                 </a>
                 <a href="/patient-registration" className="btn btn-outline-danger btn-lg shadow-sm">
@@ -162,16 +162,16 @@ const Home = () => {
             Every donor receives a certificate as a token of gratitude for their life-saving contribution.
           </p>
           <img
-            src="/RaktMitra Certificate.png"
+            src="/certificate.png"
             alt="Certificate"
             className="img-fluid shadow-lg rounded certificate-img"
-            style={{ maxWidth: "400px" }}
+            style={{ maxWidth: "200px" }}
           />
         </div>
       </section>
 
       {/* Floating Button */}
-      <a href="/donor/profile" className="floating-btn">
+      <a href="/donor-registration" className="floating-btn">
         <i className="bi bi-heart-fill"></i>
       </a>
 
@@ -183,7 +183,7 @@ const Home = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-4 mb-4">
-              <h4 className="fw-bold text-danger">🩸 RaktMitra</h4>
+              <h4 className="fw-bold text-danger"> RaktMitra</h4>
               <p className="small text-muted">
                 A platform that connects donors with those in need. Join our community and save lives.
               </p>
@@ -201,9 +201,9 @@ const Home = () => {
 
             <div className="col-md-4 mb-4">
               <h5 className="fw-bold text-danger">Contact Us</h5>
-              <p className="small mb-1">📍 Indore, Madhya Pradesh, India</p>
-              <p className="small mb-1">📧 support@raktmitra.org</p>
-              <p className="small">📞 +91 87876 87556</p>
+              <p className="small mb-1"> Indore, Madhya Pradesh, India</p>
+              <p className="small mb-1">support@raktmitra.org</p>
+              <p className="small"> +91 9755926645</p>
               <div className="d-flex gap-3 mt-2">
                 <a href="#" className="text-danger fs-5"><i className="bi bi-facebook"></i></a>
                 <a href="#" className="text-danger fs-5"><i className="bi bi-twitter"></i></a>

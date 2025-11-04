@@ -8,21 +8,21 @@ import {
 
 import Navbar from "./component/Navbar.jsx";
 import Home from "./component/Home.jsx";
-import DonorList from "./component/DonorList.jsx";
-import DonorDetails from "./component/DonorDetails.jsx";
+import DonorList from "./donor/DonorList.jsx";
+import DonorDetails from "./donor/DonorDetails.jsx";
 import Login from "./component/Login.jsx";
 import Registration from "./component/Registration.jsx";
 import Sidebar from "./component/Sidebar.jsx";
 import Information from "./component/Information.jsx";
 import AdminPage from "./admin/AdminPage.jsx";
-import DonorRegistration from "./component/DonorRegistration.jsx";
-import DonorProfile from "./component/DonorProfile.jsx";
+import DonorRegistration from "./donor/DonorRegistration.jsx";
+import DonorProfile from "./donor/DonorProfile.jsx";
 import BankForm from "./admin/BankForm.jsx";
 import BloodBanks from "./admin/BloodBanks.jsx";
 import BloodBanksList from "./component/BloodBanksList.jsx";
 import ViewDonors from "./admin/ViewDonor.jsx";
-import PatientRegistration from "./component/PatientRegistration.jsx";
-import PatientList from "./component/PatientList.jsx";
+import PatientRegistration from "./patient/PatientRegistration.jsx";
+import PatientList from "./patient/PatientList.jsx";
 import ViewPatients from "./admin/ViewPatients.jsx";  
 
 
