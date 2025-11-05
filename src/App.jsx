@@ -24,6 +24,7 @@ import ViewDonors from "./admin/ViewDonor.jsx";
 import PatientRegistration from "./patient/PatientRegistration.jsx";
 import PatientList from "./patient/PatientList.jsx";
 import ViewPatients from "./admin/ViewPatients.jsx";  
+import PatientDetails from "./patient/PatientDetails.jsx";
 
 
 function App() {
@@ -171,6 +172,16 @@ function App() {
               element={
                 isLoggedIn && role === "USER" ? (
                   <PatientRegistration />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/patient/:id"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <PatientDetails />
                 ) : (
                   <Navigate to="/login" replace />
                 )
