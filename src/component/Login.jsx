@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+const url = import.meta.env.url || "http://localhost:8080";
 
 
 const Login = () => {
@@ -18,7 +19,7 @@ const Login = () => {
     setLoading(true);
     setMessage("");
 
-    fetch("http://localhost:8080/signin", {
+    fetch(`${url}/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

@@ -5,6 +5,7 @@ const DonorList = () => {
   const navigate = useNavigate();
   const [donors, setDonors] = useState([]);
   const [error, setError] = useState(null);
+    const url = import.meta.env.url || "http://localhost:8080";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
@@ -22,7 +23,7 @@ const DonorList = () => {
 
     const fetchDonors = async () => {
       try {
-        const response = await fetch("http://localhost:8080/user/donor", {
+        const response = await fetch(`${url}/user/donor`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +73,7 @@ const DonorList = () => {
               <div className="card shadow border-0 h-100">
                 {donor.imageUrl ? (
                   <img
-                    // src={donor.imageUrl}
+                    src={donor.imageUrl}
                     alt={donor.name}
                     className="card-img-top"
                     style={{

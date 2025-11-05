@@ -6,7 +6,7 @@ const DonorDetails = () => {
   const navigate = useNavigate();
   const [donor, setDonor] = useState(null);
   const [error, setError] = useState(null);
-
+    const url = import.meta.env.url || "http://localhost:8080"; 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     const token = localStorage.getItem("token");
@@ -18,7 +18,7 @@ const DonorDetails = () => {
 
     const fetchDonor = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/user/donor/${id}`, {
+        const response = await fetch(`${url}/user/donor/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

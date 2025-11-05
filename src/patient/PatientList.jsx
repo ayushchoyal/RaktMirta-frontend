@@ -5,6 +5,7 @@ const PatientList = () => {
   const navigate = useNavigate();
   const [patients, setPatients] = useState([]);
   const [error, setError] = useState(null);
+      const url = import.meta.env.url || "http://localhost:8080";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
@@ -22,7 +23,7 @@ const PatientList = () => {
 
     const fetchPatients = async () => {
       try {
-        const response = await fetch("http://localhost:8080/user/patients", {
+        const response = await fetch(`${url}/user/patients`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

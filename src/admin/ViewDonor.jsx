@@ -30,7 +30,7 @@ const ViewDonor = () => {
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     const token = localStorage.getItem("token");
-
+      const url = import.meta.env.url || "http://localhost:8080";
     if (!loggedIn || !token) {
       navigate("/login");
       return;
@@ -38,7 +38,7 @@ const ViewDonor = () => {
 
     const fetchDonors = async () => {
       try {
-        const response = await fetch("http://localhost:8080/admin/donors", {
+        const response = await fetch(`${url}/admin/donors`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const ViewDonor = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:8080/admin/donors/${id}`, {
+      const response = await fetch(`${url}/admin/donors/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -91,7 +91,7 @@ const ViewDonor = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/admin/donors/${id}/status`,
+        `${url}/admin/donors/${id}/status`,
         {
           method: "PUT",
           headers: {

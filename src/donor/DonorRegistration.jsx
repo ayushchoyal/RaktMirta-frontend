@@ -16,7 +16,7 @@ const DonorRegistration = () => {
   const [messageType, setMessageType] = useState("");
   const [preview, setPreview] = useState(null);
   const [image, setImage] = useState(null);
-
+  const url = import.meta.env.url || "http://localhost:8080";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,7 +42,7 @@ const DonorRegistration = () => {
           return;
         }
 
-        const response = await fetch("http://localhost:8080/user/details", {
+        const response = await fetch(`${url}/user/details`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -117,7 +117,7 @@ const DonorRegistration = () => {
         dataToSend.append("image", image);
       }
 
-      const response = await fetch("http://localhost:8080/user/register", {
+      const response = await fetch(`${url}/user/register`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

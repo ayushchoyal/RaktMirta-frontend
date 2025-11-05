@@ -5,6 +5,7 @@ import DonorRegistration from "./DonorRegistration";
 const DonorProfile = () => {
   const location = useLocation();
   const donorState = location.state?.donor;
+    const url = import.meta.env.url || "http://localhost:8080";
 
   const [donor, setDonor] = useState(donorState || null);
   const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ const DonorProfile = () => {
         }
 
         // ✅ Make API call to check if donor exists
-        const response = await fetch(`http://localhost:8080/user/donor/${email}`);
+        const response = await fetch(`${url}/user/donor/${email}`);
 
         if (response.ok) {
           const data = await response.json();
@@ -72,7 +73,7 @@ const DonorProfile = () => {
       <div className="text-center mb-4">
         {donor.profileImageUrl && (
           <img
-            src={`http://localhost:8080/uploads/${donor.profileImageUrl}`}
+            src={`${url}/uploads/${donor.profileImageUrl}`}
             alt="Profile"
             className="w-24 h-24 rounded-full mx-auto border-2 border-red-500"
           />

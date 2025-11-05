@@ -7,7 +7,7 @@ const PatientDetails = () => {
   const [patient, setPatient] = useState(null);
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+    const url = import.meta.env.url || "http://localhost:8080";
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -20,7 +20,7 @@ const PatientDetails = () => {
 
     const fetchPatient = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/user/patient/${id}`, {
+        const response = await fetch(`${url}/user/patient/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

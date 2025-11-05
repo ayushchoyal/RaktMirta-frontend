@@ -6,7 +6,7 @@ const PatientRegistration = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-
+    const url = import.meta.env.url || "http://localhost:8080";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,7 +30,7 @@ const PatientRegistration = () => {
           return;
         }
 
-        const response = await fetch("http://localhost:8080/user/details", {
+        const response = await fetch(`${url}/user/details`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -83,7 +83,7 @@ const PatientRegistration = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8080/user/patient/register", {
+      const response = await fetch(`${url}/user/patient/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

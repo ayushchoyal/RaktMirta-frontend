@@ -9,6 +9,7 @@ const BloodBanks = () => {
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const url = import.meta.env.url || "http://localhost:8080";
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -17,7 +18,7 @@ const BloodBanks = () => {
   useEffect(() => {
     const fetchBanks = async () => {
       try {
-        const response = await fetch("http://localhost:8080/banks");
+        const response = await fetch(`${url}/banks`);
         if (!response.ok) {
           throw new Error(`Error ${response.status}: Unable to fetch banks`);
         }

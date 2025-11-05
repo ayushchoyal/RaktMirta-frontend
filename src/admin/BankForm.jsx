@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const BankForm = ({ onSubmit }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const url = import.meta.env.url || "http://localhost:8080";
   const [bank, setBank] = useState({
     bankName: "",
     address: "",
@@ -25,7 +26,7 @@ const BankForm = ({ onSubmit }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/admin/add", {
+      const response = await fetch(`${url}/admin/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

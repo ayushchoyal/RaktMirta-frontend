@@ -7,12 +7,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const BloodBanks = () => {
   const [banks, setBanks] = useState([]);
   const navigate = useNavigate();
-
+    const url = import.meta.env.url || "http://localhost:8080";
   // === Fetch all banks ===
   const fetchBanks = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:8080/admin/banks", {
+      const response = await fetch(`${url}/admin/banks`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const BloodBanks = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:8080/admin/delete/${id}`, {
+      const response = await fetch(`${url}/admin/delete/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
