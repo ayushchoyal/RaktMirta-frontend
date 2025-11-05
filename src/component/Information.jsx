@@ -84,8 +84,8 @@ const Information = () => {
           <Row className="align-items-center">
             <Col lg={8} className="mx-auto text-center" data-aos="fade-up">
               <h1 className="display-4 fw-bold text-danger mb-4">
-                <FaHeartbeat className="me-3" />
-                Complete Blood Donation Guide
+               
+                 RaktMitra <h2>वो दोस्ती जो ज़िंदगी बचाए</h2>
               </h1>
               <p className="lead text-dark mb-4">
                 Your comprehensive resource for safe and effective blood donation. 

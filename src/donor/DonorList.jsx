@@ -72,7 +72,7 @@ const DonorList = () => {
               <div className="card shadow border-0 h-100">
                 {donor.imageUrl ? (
                   <img
-                    src={donor.imageUrl}
+                    // src={donor.imageUrl}
                     alt={donor.name}
                     className="card-img-top"
                     style={{
