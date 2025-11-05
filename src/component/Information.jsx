@@ -400,10 +400,7 @@ const Information = () => {
                     It's not just about saving lives today, but about giving someone a chance at tomorrow. 
                     Your single donation creates a ripple effect of hope across our community."
                   </p>
-                  <footer className="blockquote-footer mt-3 fs-6">
-                    <strong>Dr. Anjali Mehta, MD (Pathology)</strong> — Senior Blood Bank Officer, 
-                    with 15+ years of experience in transfusion medicine
-                  </footer>
+                  
                 </blockquote>
               </Card.Body>
             </Card>
