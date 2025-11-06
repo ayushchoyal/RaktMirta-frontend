@@ -110,7 +110,7 @@ const DonorDetails = () => {
 
             <p className="d-flex justify-content-between mb-2">
               <span>
-                <strong>Food Preference:</strong> {donor.foodPreference}
+
                 <strong>Contact:</strong> {donor.phone || "N/A"}
               </span>
               <span>

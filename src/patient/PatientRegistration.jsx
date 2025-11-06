@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Form, Button, Row, Col, Alert } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Form,
+  Button,
+  Row,
+  Col,
+  Alert,
+  Image,
+} from "react-bootstrap";
 
 const PatientRegistration = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-    const url = import.meta.env.url || "http://localhost:8080";
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const url = import.meta.env.url || "http://localhost:8080";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,12 +26,11 @@ const PatientRegistration = () => {
     dob: "",
     bloodGroup: "",
     gender: "",
-    emergencyContact: "",
+
   });
 
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
-  // ✅ Fetch logged-in user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -52,13 +62,19 @@ const PatientRegistration = () => {
     fetchUserData();
   }, [navigate]);
 
-  // ✅ Handle Input Changes
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Handle Form Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,13 +99,20 @@ const PatientRegistration = () => {
         return;
       }
 
+      const dataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        dataToSend.append(key, value);
+      });
+      if (image) {
+        dataToSend.append("image", image);
+      }
+
       const response = await fetch(`${url}/user/patient/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: dataToSend,
       });
 
       const data = await response.json();
@@ -97,9 +120,8 @@ const PatientRegistration = () => {
       if (response.ok) {
         setMessage("Patient registration successful!");
         setMessageType("success");
-
         setTimeout(() => {
-          navigate("/patient/profile", { state: { patient: data } });
+          navigate("/",);
         }, 1000);
       } else {
         setMessage(data.message || "Registration failed. Please try again.");
@@ -112,12 +134,11 @@ const PatientRegistration = () => {
     }
   };
 
-  // ✅ JSX Layout
   return (
     <Container className="py-4">
       <Card className="shadow border-0">
         <Card.Header className="bg-danger text-white text-center">
-          <h2 className="mb-0"> Patient Registration</h2>
+          <h2 className="mb-0">Patient Registration</h2>
         </Card.Header>
 
         <Card.Body className="p-4">
@@ -168,7 +189,6 @@ const PatientRegistration = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    
                     required
                   />
                 </Form.Group>
@@ -227,7 +247,30 @@ const PatientRegistration = () => {
               </Col>
             </Row>
 
-           
+            {/* Row 4: Image Upload */}
+            <Row className="mb-3">
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Upload Image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} className="text-center">
+                {preview && (
+                  <Image
+                    src={preview}
+                    alt="Preview"
+                    fluid
+                    rounded
+                    style={{ maxHeight: "150px", border: "1px solid #ccc" }}
+                  />
+                )}
+              </Col>
+            </Row>
 
             {/* Row 5: Address */}
             <Form.Group className="mb-3">
