@@ -59,10 +59,9 @@ const DonorList = () => {
     );
   }
 
-  // ✅ Donor list UI
   return (
     <div className="container py-5">
-      <h2 className="text-center mb-4 text-danger fw-bold">Registered Donors</h2>
+
 
       {donors.length === 0 ? (
         <p className="text-center text-muted">No donors available at the moment.</p>

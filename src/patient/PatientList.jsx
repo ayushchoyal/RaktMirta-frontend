@@ -60,7 +60,7 @@ const PatientList = () => {
 
   return (
     <div className="container py-5">
-      <h2 className="text-center mb-4 text-danger fw-bold">Registered Patients</h2>
+
 
       {patients.length === 0 ? (
         <p className="text-center text-muted">No patients registered yet.</p>
