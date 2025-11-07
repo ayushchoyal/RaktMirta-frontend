@@ -18,6 +18,7 @@ import {
   FaTransgender,
   FaBirthdayCake,
   FaArrowLeft,
+  FaTrashAlt,
 } from "react-icons/fa";
 
 const ViewPatient = () => {
@@ -25,7 +26,7 @@ const ViewPatient = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-    const url = import.meta.env.url || "http://localhost:8080";
+  const url = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -60,7 +61,34 @@ const ViewPatient = () => {
     };
 
     fetchPatients();
-  }, [navigate]);
+  }, [navigate, url]);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this patient?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${url}/admin/patient/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete patient (Status: ${response.status})`);
+      }
+
+      // Remove deleted patient from UI
+      setPatients((prev) => prev.filter((p) => p.id !== id));
+      alert("Patient deleted successfully!");
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  };
 
   const getInitial = (name) => {
     if (!name) return "P";
@@ -100,8 +128,6 @@ const ViewPatient = () => {
           Back
         </Button>
       </div>
-
-
 
       {patients.length === 0 ? (
         <Alert variant="info" className="text-center">
@@ -160,6 +186,18 @@ const ViewPatient = () => {
                       </div>
                     </div>
                   </Card.Text>
+
+                  {/* === Delete Button === */}
+                  <div className="text-center mt-3">
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      onClick={() => handleDelete(patient.id)}
+                    >
+                      <FaTrashAlt className="me-2" />
+                      Delete
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>

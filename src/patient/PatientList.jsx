@@ -69,16 +69,16 @@ const PatientList = () => {
           {patients.map((patient) => (
             <div key={patient.id} className="col-lg-3 col-md-4 col-sm-6">
               <div className="card patient-card h-100 shadow-sm border-0">
-                <div className="image-wrapper">
-                  {patient.imageUrl ? (
+                <div className="image-wrapper d-flex justify-content-center align-items-center">
+                  {donor.imageUrl ? (
                     <img
-                      src={patient.imageUrl}
-                      alt={patient.name}
-                      className="patient-image"
+                      src={donor.imageUrl}
+                      alt={donor.name}
+                      className="donor-image"
                     />
                   ) : (
                     <div className="placeholder">
-                      {patient.name?.charAt(0).toUpperCase()}
+                      {donor.name?.charAt(0).toUpperCase()}
                     </div>
                   )}
                 </div>

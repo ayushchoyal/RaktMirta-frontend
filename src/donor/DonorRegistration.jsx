@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; 
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Alert,
+  Spinner,
 } from "react-bootstrap";
 
 const DonorRegistration = () => {
@@ -16,6 +17,8 @@ const DonorRegistration = () => {
   const [messageType, setMessageType] = useState("");
   const [preview, setPreview] = useState(null);
   const [image, setImage] = useState(null);
+  const [loadingEmailCheck, setLoadingEmailCheck] = useState(false);
+
   const url = import.meta.env.url || "http://localhost:8080";
   const [formData, setFormData] = useState({
     name: "",
@@ -33,6 +36,7 @@ const DonorRegistration = () => {
 
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
+  // Fetch logged-in user details
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -55,8 +59,6 @@ const DonorRegistration = () => {
             email: userData.email || "",
             phone: userData.phone || "",
           }));
-        } else {
-          console.error("Failed to fetch user data");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -64,7 +66,7 @@ const DonorRegistration = () => {
     };
 
     fetchUserData();
-  }, [navigate]);
+  }, [navigate, url]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -82,7 +84,7 @@ const DonorRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ field validation
+    // Required fields validation
     const requiredFields = [
       "name",
       "email",
@@ -109,19 +111,31 @@ const DonorRegistration = () => {
         return;
       }
 
+      // ✅ Check email existence before submitting
+      setLoadingEmailCheck(true);
+      const emailCheckResponse = await fetch(`${url}/user/check-email?email=${formData.email}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const emailCheckData = await emailCheckResponse.json();
+      setLoadingEmailCheck(false);
+
+      if (emailCheckData.exists) {
+        setMessage("Email already exists! Please use a different email.");
+        setMessageType("danger");
+        return;
+      }
+
+      // Prepare form data
       const dataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         dataToSend.append(key, value);
       });
-      if (image) {
-        dataToSend.append("image", image);
-      }
+      if (image) dataToSend.append("image", image);
 
+      // Submit donor registration
       const response = await fetch(`${url}/user/register`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
         body: dataToSend,
       });
 
@@ -141,6 +155,7 @@ const DonorRegistration = () => {
       console.error("Error:", error);
       setMessage("Network error. Please try again.");
       setMessageType("danger");
+      setLoadingEmailCheck(false);
     }
   };
 
@@ -160,7 +175,7 @@ const DonorRegistration = () => {
           )}
 
           <Form onSubmit={handleSubmit}>
-            {/* ✅ Profile image upload & preview */}
+            {/* Profile Image */}
             <Form.Group className="mb-4 text-center">
               {preview && (
                 <div className="mb-3">
@@ -182,6 +197,7 @@ const DonorRegistration = () => {
               />
             </Form.Group>
 
+            {/* Name & Email */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -205,12 +221,14 @@ const DonorRegistration = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    readOnly
+                    readOnly={!!formData.email} // prefilled email cannot edit
                   />
+                  {loadingEmailCheck && <Spinner animation="border" size="sm" />}
                 </Form.Group>
               </Col>
             </Row>
 
+            {/* Phone & DOB */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -239,6 +257,7 @@ const DonorRegistration = () => {
               </Col>
             </Row>
 
+            {/* Weight & Gender */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -271,6 +290,7 @@ const DonorRegistration = () => {
               </Col>
             </Row>
 
+            {/* Address & Blood Group */}
             <Form.Group className="mb-3">
               <Form.Label>Address *</Form.Label>
               <Form.Control
@@ -330,6 +350,7 @@ const DonorRegistration = () => {
               </Col>
             </Row>
 
+            {/* Smoking & Alcohol */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
