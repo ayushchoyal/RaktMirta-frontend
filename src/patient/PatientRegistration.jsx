@@ -17,7 +17,7 @@ const PatientRegistration = () => {
   const [messageType, setMessageType] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const url = import.meta.env.url || "http://localhost:8080";
+    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
   const [formData, setFormData] = useState({
     name: "",
     email: "",

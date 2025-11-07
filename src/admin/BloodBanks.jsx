@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const BloodBanks = () => {
   const [banks, setBanks] = useState([]);
   const navigate = useNavigate();
-    const url = import.meta.env.url || "http://localhost:8080";
+    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
   // === Fetch all banks ===
   const fetchBanks = async () => {
     try {

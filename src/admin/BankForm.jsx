@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const BankForm = ({ onSubmit }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const url = import.meta.env.url || "http://localhost:8080";
+  const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
   const [bank, setBank] = useState({
     bankName: "",
     address: "",

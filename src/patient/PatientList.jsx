@@ -5,7 +5,7 @@ const PatientList = () => {
   const navigate = useNavigate();
   const [patients, setPatients] = useState([]);
   const [error, setError] = useState(null);
-  const url = import.meta.env.url || "http://localhost:8080";
+    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");

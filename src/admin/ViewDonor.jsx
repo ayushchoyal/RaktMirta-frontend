@@ -26,7 +26,7 @@ const ViewDonor = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-      const url = import.meta.env.url || "http://localhost:8080";
+    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     const token = localStorage.getItem("token");

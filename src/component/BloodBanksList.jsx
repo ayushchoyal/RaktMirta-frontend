@@ -9,7 +9,7 @@ const BloodBanks = () => {
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const url = import.meta.env.url || "http://localhost:8080";
+    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });

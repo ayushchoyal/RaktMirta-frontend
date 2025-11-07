@@ -7,7 +7,7 @@ const DonorDetails = () => {
   const [donor, setDonor] = useState(null);
   const [error, setError] = useState(null);
 
-  const url = import.meta.env.VITE_API_URL || "http://localhost:8080";
+    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
