@@ -137,6 +137,17 @@ function App() {
                 )
               }
             />
+
+             <Route
+              path="/user/search"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <Home />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
             <Route
               path="/blood_donor"
               element={
