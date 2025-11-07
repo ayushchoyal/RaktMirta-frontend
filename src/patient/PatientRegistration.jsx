@@ -121,7 +121,7 @@ const PatientRegistration = () => {
         setMessage("Patient registration successful!");
         setMessageType("success");
         setTimeout(() => {
-          navigate("/",);
+          navigate("/submit", { state: { patient: data } });
         }, 1000);
       } else {
         setMessage(data.message || "Registration failed. Please try again.");

@@ -25,6 +25,8 @@ import PatientRegistration from "./patient/PatientRegistration.jsx";
 import PatientList from "./patient/PatientList.jsx";
 import ViewPatients from "./admin/ViewPatients.jsx";  
 import PatientDetails from "./patient/PatientDetails.jsx";
+import { Form } from "react-bootstrap";
+import FormSubmitted from "./component/FormSubmitted.jsx";
 
 
 function App() {
@@ -153,6 +155,16 @@ function App() {
               element={
                 isLoggedIn && role === "USER" ? (
                   <DonorList />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+             <Route
+              path="/submit"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <FormSubmitted />
                 ) : (
                   <Navigate to="/login" replace />
                 )

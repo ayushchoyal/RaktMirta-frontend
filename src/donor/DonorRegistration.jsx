@@ -131,7 +131,7 @@ const DonorRegistration = () => {
         setMessage("Registration successful!");
         setMessageType("success");
         setTimeout(() => {
-          navigate("/donor/profile", { state: { donor: data } });
+          navigate("/submit", { state: { donor: data } });
         }, 1000);
       } else {
         setMessage(data.message || "Registration failed. Please try again.");
