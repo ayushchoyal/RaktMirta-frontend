@@ -70,15 +70,15 @@ const PatientList = () => {
             <div key={patient.id} className="col-lg-3 col-md-4 col-sm-6">
               <div className="card patient-card h-100 shadow-sm border-0">
                 <div className="image-wrapper d-flex justify-content-center align-items-center">
-                  {donor.imageUrl ? (
+                  {patient.imageUrl ? (
                     <img
-                      src={donor.imageUrl}
-                      alt={donor.name}
-                      className="donor-image"
+                      src={patient.imageUrl}
+                      alt={patient.name}
+                      className="patient-image"
                     />
                   ) : (
                     <div className="placeholder">
-                      {donor.name?.charAt(0).toUpperCase()}
+                      {patient.name?.charAt(0).toUpperCase()}
                     </div>
                   )}
                 </div>
