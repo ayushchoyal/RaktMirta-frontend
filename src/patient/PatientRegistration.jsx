@@ -153,7 +153,7 @@ const PatientRegistration = () => {
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Full Name *</Form.Label>
+                  <Form.Label>Patient Name *</Form.Label>
                   <Form.Control
                     type="text"
                     name="name"

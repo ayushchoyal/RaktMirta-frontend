@@ -201,7 +201,7 @@ const DonorRegistration = () => {
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Full Name *</Form.Label>
+                  <Form.Label>Donor Name *</Form.Label>
                   <Form.Control
                     type="text"
                     name="name"
