@@ -16,13 +16,13 @@ export default defineConfig({
     proxy: {
       // proxy API requests
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'https://raktmitrabackend.onrender.com',
         changeOrigin: true,
         secure: false,
       },
       // proxy image uploads or static resources
       '/uploads': {
-        target: 'http://localhost:8080',
+        target: 'https://raktmitrabackend.onrender.com',
         changeOrigin: true,
         secure: false,
       },
