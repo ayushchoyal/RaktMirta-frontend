@@ -60,7 +60,10 @@ const PatientList = () => {
 
   return (
     <div className="container py-5">
-
+      <div className="text-center mt-5">
+        <Spinner animation="border" variant="danger" />
+        <p className="mt-2">Loading...</p>
+      </div>
 
       {patients.length === 0 ? (
         <p className="text-center text-muted">No patients registered yet.</p>

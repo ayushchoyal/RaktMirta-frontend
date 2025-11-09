@@ -61,7 +61,10 @@ const DonorList = () => {
 
   return (
     <div className="container py-5">
-
+            <div className="text-center mt-5">
+        <Spinner animation="border" variant="danger" />
+        <p className="mt-2">Loading...</p>
+      </div>
 
       {donors.length === 0 ? (
         <p className="text-center text-muted">No donors available at the moment.</p>
