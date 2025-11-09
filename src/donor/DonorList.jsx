@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap"; // ✅ Make sure you import Spinner
 
 const DonorList = () => {
   const navigate = useNavigate();
   const [donors, setDonors] = useState([]);
   const [error, setError] = useState(null);
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+  const [loading, setLoading] = useState(true);
+
+  const url =
+    "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
 
-  // ✅ Redirect if not logged in
+
   useEffect(() => {
     if (!loggedIn || !token) {
       navigate("/login");
     }
   }, [loggedIn, token, navigate]);
 
-  // ✅ Fetch donors
+
   useEffect(() => {
     if (!token) return;
 
     const fetchDonors = async () => {
       try {
+        setLoading(true);
         const response = await fetch(`${url}/user/donor`, {
           method: "GET",
           headers: {
@@ -44,13 +49,15 @@ const DonorList = () => {
       } catch (err) {
         console.error("Error fetching donors:", err);
         setError(err.message);
+      } finally {
+        setLoading(false); // ✅ Stop loading after request
       }
     };
 
     fetchDonors();
   }, [token]);
 
-  // ✅ Error display
+
   if (error) {
     return (
       <div className="container py-5 text-center">
@@ -59,15 +66,22 @@ const DonorList = () => {
     );
   }
 
+
+  if (loading) {
+    return (
+      <div className="container py-5 text-center">
+        <Spinner animation="border" variant="danger" />
+        <p className="mt-2">Loading donors...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container py-5">
-            <div className="text-center mt-5">
-        <Spinner animation="border" variant="danger" />
-        <p className="mt-2">Loading...</p>
-      </div>
-
       {donors.length === 0 ? (
-        <p className="text-center text-muted">No donors available at the moment.</p>
+        <p className="text-center text-muted">
+          No donors available at the moment.
+        </p>
       ) : (
         <div className="row g-4">
           {donors.map((donor) => (
@@ -110,7 +124,6 @@ const DonorList = () => {
         </div>
       )}
 
-      {/* ✅ Inline CSS */}
       <style>{`
         .donor-card {
           border-radius: 12px;
@@ -125,7 +138,6 @@ const DonorList = () => {
         }
 
         .image-wrapper {
-          position: relative;
           width: 100%;
           height: 180px;
           background-color: #f8f9fa;

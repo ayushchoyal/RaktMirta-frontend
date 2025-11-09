@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap"; 
 
 const PatientList = () => {
   const navigate = useNavigate();
   const [patients, setPatients] = useState([]);
   const [error, setError] = useState(null);
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+  const [loading, setLoading] = useState(true); 
+
+  const url =
+    "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
 
-  // Redirect if not logged in
+
   useEffect(() => {
     if (!loggedIn || !token) {
       navigate("/login");
     }
   }, [loggedIn, token, navigate]);
 
-  // Fetch patients
+
   useEffect(() => {
     if (!token) return;
 
     const fetchPatients = async () => {
       try {
+        setLoading(true);
         const response = await fetch(`${url}/user/patients`, {
           method: "GET",
           headers: {
@@ -44,11 +49,14 @@ const PatientList = () => {
       } catch (err) {
         console.error("Error fetching patients:", err);
         setError(err.message);
+      } finally {
+        setLoading(false); 
       }
     };
 
     fetchPatients();
   }, [token]);
+
 
   if (error) {
     return (
@@ -58,13 +66,19 @@ const PatientList = () => {
     );
   }
 
+
+  if (loading) {
+    return (
+      <div className="container py-5 text-center">
+        <Spinner animation="border" variant="danger" />
+        <p className="mt-2">Loading patients...</p>
+      </div>
+    );
+  }
+
+
   return (
     <div className="container py-5">
-      <div className="text-center mt-5">
-        <Spinner animation="border" variant="danger" />
-        <p className="mt-2">Loading...</p>
-      </div>
-
       {patients.length === 0 ? (
         <p className="text-center text-muted">No patients registered yet.</p>
       ) : (
@@ -107,7 +121,7 @@ const PatientList = () => {
         </div>
       )}
 
-      {/* ✅ Inline CSS */}
+
       <style>{`
         .patient-card {
           border-radius: 12px;
