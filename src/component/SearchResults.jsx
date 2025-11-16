@@ -7,7 +7,10 @@ const SearchResults = () => {
 
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+
+    // const url =
+  //   "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+  const url = "http://localhost:8080";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
@@ -28,9 +31,7 @@ const SearchResults = () => {
     const fetchResults = async () => {
       try {
         const response = await fetch(
-          `${url}/api/search?type=${type}&bloodGroup=${encodeURIComponent(
-            bloodGroup
-          )}`,
+          `${url}/user/search?type=${type}&bloodGroup=${bloodGroup}`,
           {
             method: "GET",
             headers: {
@@ -49,7 +50,7 @@ const SearchResults = () => {
     };
 
     fetchResults();
-  }, [bloodGroup, token, type, url]);
+  }, [bloodGroup, token, type]);
 
   if (error)
     return (
@@ -60,10 +61,6 @@ const SearchResults = () => {
 
   return (
     <div className="container py-5">
-      <h3 className="text-center text-danger fw-bold mb-4">
-        Search Results for {type} ({bloodGroup})
-      </h3>
-
       {results.length === 0 ? (
         <p className="text-center text-muted">No {type.toLowerCase()} found.</p>
       ) : (
@@ -89,9 +86,11 @@ const SearchResults = () => {
                   <h5 className="card-title text-danger fw-bold mb-2">
                     {item.name}
                   </h5>
+
                   <p className="card-text text-muted mb-2">
                     <strong>Blood Group:</strong> {item.bloodGroup}
                   </p>
+
                   {type === "Donor" ? (
                     <p className="card-text text-muted mb-3">
                       <strong>Address:</strong> {item.address}
@@ -101,6 +100,7 @@ const SearchResults = () => {
                       <strong>Hospital:</strong> {item.hospital}
                     </p>
                   )}
+
                   <button
                     className="btn btn-outline-danger w-100"
                     onClick={() =>
@@ -119,6 +119,60 @@ const SearchResults = () => {
           ))}
         </div>
       )}
+
+      {/* 🔥 SAME CSS FROM DONORLIST */}
+      <style>{`
+        .donor-card {
+          border-radius: 12px;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          overflow: hidden;
+          background-color: #fff;
+        }
+
+        .donor-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-wrapper {
+          width: 100%;
+          height: 180px;
+          background-color: #f8f9fa;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .donor-image {
+          width: 60%;
+          height: 150px;
+          object-fit: cover;
+          border-radius: 6px;
+        }
+
+        .placeholder {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 80px;
+          font-weight: 700;
+          color: #dc3545;
+          background-color: #f8d7da;
+          height: 150px;
+          width: 60%;
+          border-radius: 6px;
+        }
+
+        .btn-outline-danger {
+          border-radius: 8px;
+          transition: all 0.3s ease;
+        }
+
+        .btn-outline-danger:hover {
+          background-color: #dc3545;
+          color: #fff;
+        }
+      `}</style>
     </div>
   );
 };

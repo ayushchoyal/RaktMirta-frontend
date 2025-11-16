@@ -27,6 +27,7 @@ import ViewPatients from "./admin/ViewPatients.jsx";
 import PatientDetails from "./patient/PatientDetails.jsx";
 import { Form } from "react-bootstrap";
 import FormSubmitted from "./component/FormSubmitted.jsx";
+import SearchResults from "./component/SearchResults.jsx";
 
 
 function App() {
@@ -129,6 +130,19 @@ function App() {
             <Route path="/bloodbanks" element={<BloodBanksList />} />
 
             {/* ---------- USER ROUTES (protected) ---------- */}
+
+             <Route
+              path="/search"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <SearchResults />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+
+
             <Route
               path="/user/home"
               element={
@@ -140,16 +154,7 @@ function App() {
               }
             />
 
-             <Route
-              path="/user/search"
-              element={
-                isLoggedIn && role === "USER" ? (
-                  <Home />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
+            
             <Route
               path="/blood_donor"
               element={

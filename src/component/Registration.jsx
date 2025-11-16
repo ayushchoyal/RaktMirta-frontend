@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+    // const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+    const url = "http://localhost:8080" ;
 
 const Registration = () => {
   const navigate = useNavigate();

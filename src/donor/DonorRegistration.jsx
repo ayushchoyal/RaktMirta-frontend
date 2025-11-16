@@ -19,7 +19,8 @@ const DonorRegistration = () => {
   const [image, setImage] = useState(null);
   const [loadingEmailCheck, setLoadingEmailCheck] = useState(false);
 
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+    // const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+    const url = "http://localhost:8080" ;
   const [formData, setFormData] = useState({
     name: "",
     email: "",

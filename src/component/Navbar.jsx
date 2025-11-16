@@ -5,9 +5,11 @@ import "./Navbar.css";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
-  const [searchType, setSearchType] = useState("Donor");
-  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    searchType: "Donor",
+    bloodGroup: "",
+  });
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -21,13 +23,22 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  const handleSearch = (e) => {
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!searchQuery.trim()) {
+    if (!formData.bloodGroup.trim()) {
       alert("Please enter a blood group to search.");
       return;
     }
-    navigate(`/search?type=${searchType}&bloodGroup=${searchQuery.trim()}`);
+    navigate(
+  `/search?type=${formData.searchType}&bloodGroup=${encodeURIComponent(formData.bloodGroup.trim())}`
+);
   };
 
   return (
@@ -39,17 +50,16 @@ const Navbar = () => {
     >
       <div className="container-fluid px-3">
         {/* Brand */}
-
         <div className="d-flex flex-column">
           <p className="navbar-brand fw-bold text-danger fs-4 mb-0 ml-2">
             RaktMitra
           </p>
           <small className="text-danger" style={{ marginTop: "-5px" }}>
             वो दोस्ती जो ज़िंदगी बचाए
-          </small>{" "}
+          </small>
         </div>
 
-        {/* Toggler for mobile */}
+        {/* Mobile toggler */}
         <button
           className="navbar-toggler"
           type="button"
@@ -68,13 +78,14 @@ const Navbar = () => {
             {/* Search Form */}
             <form
               className="d-flex align-items-center w-100 w-lg-auto"
-              onSubmit={handleSearch}
+              onSubmit={handleSubmit}
             >
               <select
                 className="form-select form-select-sm me-2"
                 style={{ width: "110px" }}
-                value={searchType}
-                onChange={(e) => setSearchType(e.target.value)}
+                name="searchType"
+                value={formData.searchType}
+                onChange={handleChange}
               >
                 <option value="Donor">Donor</option>
                 <option value="Patient">Patient</option>
@@ -84,8 +95,9 @@ const Navbar = () => {
                 type="search"
                 className="form-control form-control-sm"
                 placeholder="Enter blood group"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                name="bloodGroup"
+                value={formData.bloodGroup}
+                onChange={handleChange}
               />
 
               <button
@@ -96,7 +108,7 @@ const Navbar = () => {
               </button>
             </form>
 
-            {/* User or Login */}
+            {/* User / Login */}
             {user ? (
               <div className="dropdown ms-lg-3 mt-2 mt-lg-0">
                 <button
