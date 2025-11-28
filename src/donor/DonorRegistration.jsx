@@ -10,6 +10,7 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
+import { CiTrophy } from "react-icons/ci";
 
 const DonorRegistration = () => {
   const navigate = useNavigate();
@@ -19,13 +20,15 @@ const DonorRegistration = () => {
   const [image, setImage] = useState(null);
   const [loadingEmailCheck, setLoadingEmailCheck] = useState(false);
 
-    // const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
-    const url = "http://localhost:8080" ;
+  const url = "http://localhost:8080";
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
+    city: "",
+    state: "",
     dob: "",
     weight: "",
     gender: "",
@@ -36,8 +39,10 @@ const DonorRegistration = () => {
   });
 
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+  const states = [
+    "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal"
+  ];
 
-  // Fetch logged-in user details
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -85,12 +90,13 @@ const DonorRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Required fields validation
     const requiredFields = [
       "name",
       "email",
       "phone",
       "address",
+      "city",
+      "state",
       "dob",
       "weight",
       "gender",
@@ -112,7 +118,6 @@ const DonorRegistration = () => {
         return;
       }
 
-      // ✅ Check email existence before submitting
       setLoadingEmailCheck(true);
       const emailCheckResponse = await fetch(`${url}/user/check-email?email=${formData.email}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -121,19 +126,17 @@ const DonorRegistration = () => {
       setLoadingEmailCheck(false);
 
       if (emailCheckData.exists) {
-        setMessage("Email already exists! Please use a different email.");
+        setMessage("Donor already exists with this email.");
         setMessageType("danger");
         return;
       }
 
-      // Prepare form data
       const dataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         dataToSend.append(key, value);
       });
       if (image) dataToSend.append("image", image);
 
-      // Submit donor registration
       const response = await fetch(`${url}/user/register`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
@@ -176,7 +179,6 @@ const DonorRegistration = () => {
           )}
 
           <Form onSubmit={handleSubmit}>
-            {/* Profile Image */}
             <Form.Group className="mb-4 text-center">
               {preview && (
                 <div className="mb-3">
@@ -198,7 +200,6 @@ const DonorRegistration = () => {
               />
             </Form.Group>
 
-            {/* Name & Email */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -222,14 +223,13 @@ const DonorRegistration = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    readOnly={!!formData.email} // prefilled email cannot edit
+                    readOnly={!!formData.email}
                   />
                   {loadingEmailCheck && <Spinner animation="border" size="sm" />}
                 </Form.Group>
               </Col>
             </Row>
 
-            {/* Phone & DOB */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -258,7 +258,6 @@ const DonorRegistration = () => {
               </Col>
             </Row>
 
-            {/* Weight & Gender */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
@@ -291,7 +290,6 @@ const DonorRegistration = () => {
               </Col>
             </Row>
 
-            {/* Address & Blood Group */}
             <Form.Group className="mb-3">
               <Form.Label>Address *</Form.Label>
               <Form.Control
@@ -303,6 +301,39 @@ const DonorRegistration = () => {
                 required
               />
             </Form.Group>
+
+            {/* City + State Together */}
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>City *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>State *</Form.Label>
+                  <Form.Select
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select State</option>
+                    {states.map((st) => (
+                      <option key={st} value={st}>{st}</option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
 
             <Row>
               <Col md={6}>
@@ -316,9 +347,7 @@ const DonorRegistration = () => {
                   >
                     <option value="">Select Blood Group</option>
                     {bloodGroups.map((group) => (
-                      <option key={group} value={group}>
-                        {group}
-                      </option>
+                      <option key={group} value={group}>{group}</option>
                     ))}
                   </Form.Select>
                 </Form.Group>
@@ -351,7 +380,6 @@ const DonorRegistration = () => {
               </Col>
             </Row>
 
-            {/* Smoking & Alcohol */}
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">

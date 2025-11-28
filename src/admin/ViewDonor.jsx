@@ -202,9 +202,11 @@ const ViewDonor = () => {
                     </div>
 
                     <div className="d-flex align-items-start mb-2">
-                      <FaMapMarkerAlt className="text-danger me-2 mt-1" />
+                      {/* <FaMapMarkerAlt className="text-danger me-2 mt-1" /> */}
                       <div>
-                        <strong>City:</strong> {donor.address || "Unknown"}
+                        <strong>Address:</strong> {donor.address || "Unknown"}<br></br>
+                        <strong>City:</strong> {donor.city || "Unkonow"}<br></br>
+                        <strong>State:</strong> {donor.state}
                       </div>
                     </div>
 

@@ -127,8 +127,10 @@ const DonorDetails = () => {
                 {donor.dob ? new Date(donor.dob).toLocaleDateString() : "N/A"}
               </p>
               <p className="mb-2">
-                <strong>Address:</strong> {donor.address}
+                <strong>Address:</strong> {donor.address},{donor.city},{donor.state}
+                
               </p>
+            
               <p className="mb-2">
                 <strong>Food Preference:</strong> {donor.foodPreference}
               </p>
