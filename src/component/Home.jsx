@@ -174,38 +174,7 @@ const Home = () => {
       <a href="/donor-registration" className="floating-btn">
         <i className="bi bi-heart-fill"></i>
       </a>
-            <section className="py-5 bg-white" data-aos="fade-up">
-  <div className="container text-center">
-    <h2 className="fw-bold text-danger mb-4">Platform Statistics</h2>
-    <div className="row g-4">
-      
-      <div className="col-md-4">
-        <div className="shadow-lg p-4 rounded custom-card h-100">
-          <i className="bi bi-people-fill text-danger display-5"></i>
-          <h3 className="fw-bold text-danger mt-3">1500+</h3>
-          <p className="text-muted">Total Registered Users</p>
-        </div>
-      </div>
-
-      <div className="col-md-4">
-        <div className="shadow-lg p-4 rounded custom-card h-100">
-          <i className="bi bi-heart-fill text-danger display-5"></i>
-          <h3 className="fw-bold text-danger mt-3">800+</h3>
-          <p className="text-muted">Active Donors</p>
-        </div>
-      </div>
-
-      <div className="col-md-4">
-        <div className="shadow-lg p-4 rounded custom-card h-100">
-          <i className="bi bi-hospital-fill text-danger display-5"></i>
-          <h3 className="fw-bold text-danger mt-3">350+</h3>
-          <p className="text-muted">Patients Registered</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+          
       {/* Footer */}
       <footer
         className="text-dark pt-5 pb-3 mt-5"

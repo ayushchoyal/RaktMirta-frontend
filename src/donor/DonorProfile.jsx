@@ -5,8 +5,8 @@ import DonorRegistration from "./DonorRegistration";
 const DonorProfile = () => {
   const location = useLocation();
   const donorState = location.state?.donor;
-    // const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
-    const url = "http://localhost:8080" ;
+    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+//    const url = "http://localhost:8080" ;
 
   const [donor, setDonor] = useState(donorState || null);
   const [loading, setLoading] = useState(true);

@@ -14,7 +14,7 @@ const PatientList = () => {
   const [state, setState] = useState("");
   const [gender, setGender] = useState("");
 
-  const url = "http://localhost:8080";
+    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
