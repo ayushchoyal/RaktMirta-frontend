@@ -7,8 +7,10 @@ const DonorDetails = () => {
   const [donor, setDonor] = useState(null);
   const [error, setError] = useState(null);
 
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
-//    const url = "http://localhost:8080" ;
+  // Correct Backend URL Logic
+  const url =
+    "https://raktmitrabackend.onrender.com"
+      || "http://localhost:8080";
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -21,7 +23,7 @@ const DonorDetails = () => {
 
     const fetchDonor = async () => {
       try {
-        const response = await fetch(`${url}/user/donor/${id}`, {
+        const response = await fetch(`${url}/donor/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -35,8 +37,8 @@ const DonorDetails = () => {
         const data = await response.json();
         setDonor(data);
       } catch (err) {
-        console.error("Error fetching donor:", err);
         setError(err.message);
+        console.error("Error fetching donor:", err);
       }
     };
 
@@ -52,7 +54,7 @@ const DonorDetails = () => {
 
   if (!donor) return <p className="text-center mt-5">Loading donor info...</p>;
 
-  // ✅ Function to open WhatsApp with message
+  // ************** MOBILE SAFE WHATSAPP CONNECT FUNCTION *****************
   const handleWhatsApp = () => {
     if (!donor.phone) {
       alert("Phone number not available for this donor.");
@@ -61,11 +63,19 @@ const DonorDetails = () => {
 
     const message = `Hello ${donor.name}, I found your profile on RaktMitra. I need blood of your group (${donor.bloodGroup}). Can we connect? 🙏`;
     const encodedMessage = encodeURIComponent(message);
-    const phoneNumber = donor.phone.startsWith("+")
-      ? donor.phone
-      : `+91${donor.phone}`; // Add +91 if not present
 
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+    let phone = donor.phone.toString().trim();
+
+    phone = phone.replace(/[^0-9]/g, ""); // Remove +, spaces, symbols
+
+    if (phone.length === 10) {
+      phone = "91" + phone; // Add India code automatically
+    }
+
+    // FINAL: WhatsApp safe URL
+    const waUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+
+    window.location.href = waUrl; // Mobile-friendly redirect
   };
 
   return (
@@ -80,7 +90,6 @@ const DonorDetails = () => {
         </h2>
 
         <div className="row align-items-center">
-          {/* ✅ Donor Image */}
           <div className="col-md-5 text-center mb-4">
             {donor.imageUrl ? (
               <img
@@ -110,51 +119,32 @@ const DonorDetails = () => {
             )}
           </div>
 
-          {/* ✅ Donor Info */}
           <div className="col-md-7">
             <div className="mb-3">
-              <p className="mb-2">
-                <strong>Gender:</strong> {donor.gender}
-              </p>
-              <p className="mb-2">
-                <strong>Blood Group:</strong> {donor.bloodGroup}
-              </p>
-              <p className="mb-2">
-                <strong>Contact:</strong> {donor.phone || "N/A"}
-              </p>
-              <p className="mb-2">
+              <p><strong>Gender:</strong> {donor.gender}</p>
+              <p><strong>Blood Group:</strong> {donor.bloodGroup}</p>
+              <p><strong>Contact:</strong> {donor.phone || "N/A"}</p>
+              <p>
                 <strong>Date of Birth:</strong>{" "}
                 {donor.dob ? new Date(donor.dob).toLocaleDateString() : "N/A"}
               </p>
-              <p className="mb-2">
-                <strong>Address:</strong> {donor.address},{donor.city},{donor.state}
-                
+              <p>
+                <strong>Address:</strong> {donor.address}, {donor.city},{" "}
+                {donor.state}
               </p>
-            
-              <p className="mb-2">
+              <p>
                 <strong>Food Preference:</strong> {donor.foodPreference}
               </p>
-              {donor.alcoholConsumption !== undefined && (
-                <p className="mb-2">
-                  <strong>Alcohol Consumption:</strong>{" "}
-                  {donor.alcoholConsumption === "yes" ||
-                  donor.alcoholConsumption === true
-                    ? "Yes"
-                    : "No"}
-                </p>
-              )}
-              {donor.smokingStatus !== undefined && (
-                <p className="mb-2">
-                  <strong>Smoking Status:</strong>{" "}
-                  {donor.smokingStatus === "yes" ||
-                  donor.smokingStatus === true
-                    ? "Yes"
-                    : "No"}
-                </p>
-              )}
+              <p>
+                <strong>Alcohol Consumption:</strong>{" "}
+                {donor.alcoholConsumption === "yes" ? "Yes" : "No"}
+              </p>
+              <p>
+                <strong>Smoking Status:</strong>{" "}
+                {donor.smokingStatus === "yes" ? "Yes" : "No"}
+              </p>
             </div>
 
-            {/* ✅ WhatsApp Contact Button */}
             <button
               className="btn btn-success d-flex align-items-center gap-2 px-4"
               onClick={handleWhatsApp}
