@@ -14,48 +14,19 @@ const PatientList = () => {
   const [state, setState] = useState("");
   const [gender, setGender] = useState("");
 
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+  const url = "https://raktmitrabackend.onrender.com";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
 
   const statesOfIndia = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal",
-    "Delhi",
-    "Jammu and Kashmir",
-    "Ladakh",
-    "Pondicherry",
-    "Chandigarh",
-    "Andaman & Nicobar",
-    "Daman & Diu",
-    "Lakshadweep",
+    "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa",
+    "Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala",
+    "Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland",
+    "Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura",
+    "Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir",
+    "Ladakh","Pondicherry","Chandigarh","Andaman & Nicobar","Daman & Diu",
+    "Lakshadweep"
   ];
 
   useEffect(() => {
@@ -78,19 +49,14 @@ const PatientList = () => {
           },
         });
 
-        if (response.status === 403) {
-          throw new Error("Forbidden. You do not have access.");
-        }
+        if (response.status === 403) throw new Error("Forbidden");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch patient data.");
-        }
+        if (!response.ok) throw new Error("Failed to fetch patient data.");
 
         const data = await response.json();
         setPatients(data);
         setFilteredPatients(data);
       } catch (err) {
-        console.error("Error fetching patients:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -105,13 +71,11 @@ const PatientList = () => {
     let temp = patients;
 
     if (city)
-      temp = temp.filter((p) => p.city?.toLowerCase() === city.toLowerCase());
+      temp = temp.filter((p) => p.city?.toLowerCase().includes(city.toLowerCase()));
     if (state)
       temp = temp.filter((p) => p.state?.toLowerCase() === state.toLowerCase());
     if (gender)
-      temp = temp.filter(
-        (p) => p.gender?.toLowerCase() === gender.toLowerCase()
-      );
+      temp = temp.filter((p) => p.gender?.toLowerCase() === gender.toLowerCase());
 
     setFilteredPatients(temp);
   }, [city, state, gender, patients]);
@@ -128,53 +92,50 @@ const PatientList = () => {
     return (
       <div className="container py-5 text-center">
         <Spinner animation="border" variant="danger" />
-        <p className="mt-2">Loading patients...</p>
+        <p>Loading patients...</p>
       </div>
     );
   }
 
   return (
     <div className="container py-5">
-      {/* SAME FILTER BAR AS DONORLIST */}
-      <div className="filter-bar shadow-sm mb-4 bg-white rounded">
-        <div className="row g-3">
-          <div className="col-md-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter city"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-          </div>
 
-          <div className="col-md-4">
-            <select
-              className="form-select"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-            >
-              <option value="">Select State</option>
-              {statesOfIndia.map((st, index) => (
-                <option key={index} value={st}>
-                  {st}
-                </option>
-              ))}
-            </select>
-          </div>
+      {/* SAME SINGLE-ROW FILTER AS DONORLIST */}
+      <div className="filter-bar shadow-sm mb-4 bg-white rounded p-2">
+        <div className="d-flex filter-row gap-2 justify-content-between">
 
-          <div className="col-md-4">
-            <select
-              className="form-select"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+
+          <select
+            className="form-select"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          >
+            <option value="">State</option>
+            {statesOfIndia.map((st, index) => (
+              <option key={index} value={st}>
+                {st}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="form-select"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="">Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+
         </div>
       </div>
 
@@ -186,8 +147,8 @@ const PatientList = () => {
           {filteredPatients.map((patient) => (
             <div key={patient.id} className="col-lg-3 col-md-4 col-sm-6">
               <div className="card patient-card h-100 shadow-sm border-0">
+
                 <div className="image-wrapper d-flex justify-content-center align-items-center">
-                  {" "}
                   {patient.imageUrl ? (
                     <img
                       src={patient.imageUrl}
@@ -196,17 +157,16 @@ const PatientList = () => {
                     />
                   ) : (
                     <div className="placeholder">
-                      {" "}
-                      {patient.name?.charAt(0).toUpperCase()}{" "}
+                      {patient.name?.charAt(0).toUpperCase()}
                     </div>
-                  )}{" "}
+                  )}
                 </div>
 
                 <div className="card-body text-center">
-                  <h5 className="card-title text-danger fw-bold mb-2">
+                  <h5 className="card-title text-danger fw-bold">
                     {patient.name}
                   </h5>
-                  <p className="card-text text-muted mb-3">
+                  <p className="text-muted">
                     <strong>Blood Group:</strong> {patient.bloodGroup}
                   </p>
 
@@ -217,19 +177,65 @@ const PatientList = () => {
                     View Profile
                   </button>
                 </div>
+
               </div>
             </div>
           ))}
         </div>
       )}
 
+      {/* CSS FOR SINGLE-ROW FILTER */}
       <style>{`
-        .filter-bar {
-          position: sticky;
-          top: 70px;
-          z-index: 1000;
+        .filter-row {
+          display: flex;
+          flex-wrap: nowrap;
+        }
+
+        .filter-bar .form-control,
+        .filter-bar .form-select {
+          min-width: 0;
+        }
+
+        @media (max-width: 576px) {
+          .filter-row {
+            overflow-x: auto;
+            white-space: nowrap;
+          }
+
+          .filter-bar .form-control,
+          .filter-bar .form-select {
+            flex-basis: 32%;
+            font-size: 14px;
+            padding: 6px;
+          }
+        }
+
+        .image-wrapper {
+          height: 180px;
+          background: #f8f9fa;
+        }
+
+        .patient-image {
+          width: 60%;
+          height: 150px;
+          object-fit: cover;
+          border-radius: 8px;
+        }
+
+        .placeholder {
+          width: 60%;
+          height: 150px;
+          font-size: 80px;
+          font-weight: 700;
+          color: #dc3545;
+          background: #f8d7da;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       `}</style>
+  <br />
     </div>
   );
 };

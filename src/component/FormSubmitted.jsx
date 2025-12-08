@@ -6,12 +6,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const FormSubmitted = ({ onReset }) => {
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 600 });
   }, []);
 
   return (
     <Container
-      className="d-flex justify-content-center align-items-center vh-100"
+      className="d-flex justify-content-center align-items-center vh-70"
       style={{ backgroundColor: "#f8f9fa" }}
     >
       <Row className="w-100">

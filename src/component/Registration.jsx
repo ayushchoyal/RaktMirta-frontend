@@ -150,7 +150,10 @@ const Registration = () => {
           </a>
         </small>
       </div>
+      <br />
+      <br />
     </div>
+    
   );
 };
 

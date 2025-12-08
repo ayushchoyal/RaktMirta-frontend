@@ -9,16 +9,14 @@ const DonorList = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [gender, setGender] = useState("");
 
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+  const url = "https://raktmitrabackend.onrender.com";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
-
 
   const statesOfIndia = [
     "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh",
@@ -51,7 +49,6 @@ const DonorList = () => {
         });
 
         if (response.status === 403) throw new Error("Forbidden");
-
         if (!response.ok) throw new Error("Failed to fetch donor data.");
 
         const data = await response.json();
@@ -66,14 +63,11 @@ const DonorList = () => {
     fetchDonors();
   }, [token]);
 
-  // 🟢 APPLY FILTERS
   useEffect(() => {
     let temp = donors;
-
-    if (city) temp = temp.filter((d) => d.city?.toLowerCase() === city.toLowerCase());
+    if (city) temp = temp.filter((d) => d.city?.toLowerCase().includes(city.toLowerCase()));
     if (state) temp = temp.filter((d) => d.state?.toLowerCase() === state.toLowerCase());
     if (gender) temp = temp.filter((d) => d.gender?.toLowerCase() === gender.toLowerCase());
-
     setFilteredDonors(temp);
   }, [city, state, gender, donors]);
 
@@ -97,54 +91,44 @@ const DonorList = () => {
   return (
     <div className="container py-5">
 
-      <div className="filter-bar shadow-sm mb-4 bg-white rounded">
-        <div className="row g-3">
+      {/* Filter Bar */}
+      <div className="filter-bar shadow-sm mb-4 bg-white rounded p-2">
+        <div className="d-flex filter-row gap-2 justify-content-between">
 
-          {/* City Filter */}
-          <div className="col-md-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
 
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Enter city"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-      </div>
+          <select
+            className="form-select"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          >
+            <option value="">State</option>
+            {statesOfIndia.map((st, index) => (
+              <option key={index} value={st}>{st}</option>
+            ))}
+          </select>
 
-
-          <div className="col-md-4">
-
-            <select
-              className="form-select"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-            >
-              <option value="">Select State</option>
-              {statesOfIndia.map((st, index) => (
-                <option key={index} value={st}>{st}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Gender Filter */}
-          <div className="col-md-4">
-            <select
-              className="form-select"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+          <select
+            className="form-select"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="">Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
 
         </div>
       </div>
 
-      {/* Donor List */}
+      {/* Donor Cards */}
       {filteredDonors.length === 0 ? (
         <p className="text-center text-muted">No donors found.</p>
       ) : (
@@ -152,7 +136,6 @@ const DonorList = () => {
           {filteredDonors.map((donor) => (
             <div key={donor.id} className="col-lg-3 col-md-4 col-sm-6">
               <div className="card donor-card h-100 shadow-sm border-0">
-                
                 <div className="image-wrapper d-flex justify-content-center align-items-center">
                   {donor.imageUrl ? (
                     <img src={donor.imageUrl} alt={donor.name} className="donor-image" />
@@ -173,19 +156,37 @@ const DonorList = () => {
                     View Profile
                   </button>
                 </div>
-
               </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* CSS */}
+      {/* ALL CSS */}
       <style>{`
-        .filter-bar {
-          position: sticky;
-          top: 70px; 
-          z-index: 1000;
+        /* Filter row always single line */
+        .filter-row {
+          display: flex;
+          flex-wrap: nowrap;
+        }
+
+        .filter-bar .form-control,
+        .filter-bar .form-select {
+          min-width: 0;
+        }
+
+        /* Mobile: keep 3 filters in one row */
+        @media (max-width: 576px) {
+          .filter-row {
+            overflow-x: auto;
+            white-space: nowrap;
+          }
+          .filter-bar .form-control,
+          .filter-bar .form-select {
+            flex-basis: 32%;
+            font-size: 14px;
+            padding: 6px;
+          }
         }
 
         .donor-card {

@@ -26,7 +26,7 @@ import {
 
 const Information = () => {
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 500 });
   }, []);
 
   return (
@@ -458,6 +458,7 @@ const Information = () => {
           </div>
         </Container>
       </footer>
+      <br /><br />
     </div>
   );
 };

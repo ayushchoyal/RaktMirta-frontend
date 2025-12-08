@@ -31,7 +31,7 @@ const Home = () => {
 
           .floating-btn {
             position: fixed;
-            bottom: 20px;
+            bottom: 60px;
             right: 25px;
             background-color: #dc3545;
             color: white;
@@ -218,6 +218,7 @@ const Home = () => {
           </div>
         </div>
       </footer>
+      <br /><br />
     </div>
   );
 };
