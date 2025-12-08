@@ -8,9 +8,12 @@ const SearchResults = () => {
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
 
-    const url =
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [gender, setGender] = useState("");
+
+  const url =
     "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
-//  const url = "http://localhost:8080";
 
   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   const token = localStorage.getItem("token");
@@ -25,21 +28,27 @@ const SearchResults = () => {
     }
   }, [loggedIn, token, navigate]);
 
+  // Fetch results with filters
   useEffect(() => {
     if (!bloodGroup || !token) return;
 
     const fetchResults = async () => {
       try {
-        const response = await fetch(
-          `${url}/user/search?type=${type}&bloodGroup=${bloodGroup}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const query = new URLSearchParams({
+          type,
+          bloodGroup,
+          city,
+          state,
+          gender,
+        });
+
+        const response = await fetch(`${url}/user/search?${query.toString()}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) throw new Error("Failed to fetch results");
         const data = await response.json();
@@ -50,7 +59,7 @@ const SearchResults = () => {
     };
 
     fetchResults();
-  }, [bloodGroup, token, type]);
+  }, [bloodGroup, type, city, state, gender, token]);
 
   if (error)
     return (
@@ -61,6 +70,42 @@ const SearchResults = () => {
 
   return (
     <div className="container py-5">
+
+      {/* ---------------- FILTER BAR ---------------- */}
+      <div className="filter-bar mb-4">
+        <div className="filter-row">
+
+          <input
+            type="text"
+            className="form-control"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+
+          <input
+            type="text"
+            className="form-control"
+            placeholder="State"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          />
+
+          <select
+            className="form-select"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="">Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+
+        </div>
+      </div>
+
+      {/* ---------------- RESULT CARDS ---------------- */}
       {results.length === 0 ? (
         <p className="text-center text-muted">No {type.toLowerCase()} found.</p>
       ) : (
@@ -120,20 +165,51 @@ const SearchResults = () => {
         </div>
       )}
 
-      {/* 🔥 SAME CSS FROM DONORLIST */}
+      {/* ---------------- CSS ---------------- */}
       <style>{`
+        /* FILTER BAR */
+        .filter-bar {
+          margin-bottom: 20px;
+        }
+
+        .filter-bar .filter-row {
+          display: flex;
+          gap: 10px;
+          flex-wrap: nowrap;
+        }
+
+        .filter-bar .form-control,
+        .filter-bar .form-select {
+          flex: 1;
+          min-width: 0;
+        }
+
+        /* FORCE SINGLE ROW ON MOBILE */
+        @media (max-width: 576px) {
+          .filter-bar .form-control,
+          .filter-bar .form-select {
+            flex-basis: 30%;
+            font-size: 14px;
+            padding: 6px;
+          }
+
+          .filter-bar {
+            overflow-x: auto;
+            white-space: nowrap;
+          }
+        }
+
+        /* CARD CSS (same as DonorList) */
         .donor-card {
           border-radius: 12px;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           overflow: hidden;
           background-color: #fff;
         }
-
         .donor-card:hover {
           transform: translateY(-6px);
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-
         .image-wrapper {
           width: 100%;
           height: 180px;
@@ -142,14 +218,12 @@ const SearchResults = () => {
           justify-content: center;
           align-items: center;
         }
-
         .donor-image {
           width: 60%;
           height: 150px;
           object-fit: cover;
           border-radius: 6px;
         }
-
         .placeholder {
           display: flex;
           align-items: center;
@@ -162,17 +236,8 @@ const SearchResults = () => {
           width: 60%;
           border-radius: 6px;
         }
-
-        .btn-outline-danger {
-          border-radius: 8px;
-          transition: all 0.3s ease;
-        }
-
-        .btn-outline-danger:hover {
-          background-color: #dc3545;
-          color: #fff;
-        }
       `}</style>
+      <br />
     </div>
   );
 };
