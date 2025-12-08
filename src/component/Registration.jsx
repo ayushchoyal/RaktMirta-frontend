@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
-// const url = "http://localhost:8080" ;
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
+
+const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Registration = () => {
   });
 
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
 
   // Handle input change
   const handleChange = (e) => {
@@ -24,37 +26,37 @@ const Registration = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Password validation
     if (formData.password.length < 8 || formData.password.length > 12) {
-      setMessage(" Password must be between 8 and 12 characters.");
+      setMessage("Password must be between 8 and 12 characters.");
       return;
     }
 
     fetch(`${url}/register`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
       .then((res) => {
         if (!res.ok) return res.text().then((text) => Promise.reject(text));
         return res.json();
       })
-      .then((data) => {
-        setMessage(" Registration successful!");
+      .then(() => {
+        setMessage("Registration successful!");
         setFormData({ username: "", email: "", password: "", phone: "" });
         navigate("/login");
       })
       .catch((err) => {
-        setMessage(" Error: " + err);
+        setMessage("Error: " + err);
       });
   };
 
   return (
-    <div className="container">
-      <div className="card shadow p-4 rounded-3 w-50 mx-auto">
-        <h2 className="text-center mb-4 text-danger fw-bold">
+    <div className="container my-4">
+      <div
+        className="card shadow p-4 rounded-3 mx-auto"
+        style={{ maxWidth: "400px", width: "90%" }}
+      >
+        <h2 className="text-center mb-3 text-danger fw-bold">
           RaktMitra Registration
         </h2>
         <p className="text-center text-muted">वो दोस्ती जो ज़िंदगी बचाए</p>
@@ -101,10 +103,10 @@ const Registration = () => {
             />
           </div>
 
-          {/* Password */}
-          <div className="mb-3">
+          {/* Password with show/hide */}
+          <div className="mb-3 position-relative">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="form-control"
               name="password"
               placeholder="Password"
@@ -113,8 +115,25 @@ const Registration = () => {
               required
               minLength={8}
               maxLength={12}
+              
+              
             />
-            <small className="text-muted">Password must be 8–12 characters long.</small>
+            <small className="text-muted">
+              Password must be 8–12 characters long.
+            </small>
+            <span
+              className="position-absolute"
+              style={{
+                top: "25%",
+                right: "10px",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#555",
+              }}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
 
           <button type="submit" className="btn btn-danger w-100">

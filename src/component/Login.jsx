@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
-// const url = "http://localhost:8080" ;
 
+const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -30,16 +31,14 @@ const Login = () => {
         console.log("Login Response:", data);
 
         if (data.success) {
-          // store user data
           localStorage.setItem("token", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("isLoggedIn", "true");
           localStorage.setItem("role", data.user.role);
 
-          setMessage("✅ Login successful! ");
+          setMessage("✅ Login successful!");
           setLoading(false);
 
-          // Wait 0.5 seconds, then reload to make App.js re-read localStorage
           setTimeout(() => {
             if (data.user.role === "ADMIN") {
               window.location.href = "/admin";
@@ -62,19 +61,26 @@ const Login = () => {
   return (
     <div
       className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh", backgroundColor: "#f8f9fa" }}
+      style={{ minHeight: "80vh", backgroundColor: "#f8f9fa" }}
     >
-      <div className="card shadow p-4 login-card" style={{ width: "350px" }}>
+      <div
+        className="card shadow p-4 login-card position-relative"
+        style={{ width: "350px" }}
+      >
         <h2 className="text-center text-danger fw-bold mb-3">RaktMitra Login</h2>
         <p className="text-center text-muted">वो दोस्ती जो ज़िंदगी बचाए</p>
 
         {message && (
-          <p className="text-center mt-2" style={{ color: message.includes("✅") ? "green" : "red" }}>
+          <p
+            className="text-center mt-2"
+            style={{ color: message.includes("✅") ? "green" : "red" }}
+          >
             {message}
           </p>
         )}
 
         <form onSubmit={handleSubmit}>
+          {/* Email */}
           <input
             type="email"
             name="email"
@@ -84,15 +90,33 @@ const Login = () => {
             placeholder="Email"
             required
           />
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="form-control mb-3"
-            placeholder="Password"
-            required
-          />
+
+          {/* Password with eye toggle */}
+          <div className="position-relative mb-3">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Password"
+              required
+            />
+            <span
+              className="position-absolute"
+              style={{
+                top: "50%",
+                right: "10px",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#555",
+              }}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+
           <button
             type="submit"
             className="btn btn-danger w-100"

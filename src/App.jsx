@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -32,10 +33,18 @@ import SearchResults from "./component/SearchResults.jsx";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const role = localStorage.getItem("role"); // "ADMIN" or "USER"
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   const showSidebar = !isLoggedIn || role === "USER";
+   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <Router>
@@ -49,24 +58,32 @@ function App() {
       <br />
       <br />
 
-      <div style={{ display: "flex" }}>
-        {/* Sidebar for guests and users */}
+  <div style={{ display: "flex" }}>
+        
+        {/* Sidebar */}
         {showSidebar && (
-          <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+          <Sidebar
+            isOpen={isSidebarOpen}
+            setIsOpen={setIsSidebarOpen}
+          />
         )}
 
-        {/* Main content */}
+        {/* MAIN CONTENT */}
         <div
           className="flex-grow-1 p-3"
           style={{
-            marginLeft: showSidebar
+            marginLeft: isMobile
+              ? "0px" // 🚀 FIX: No blank space on mobile
+              : showSidebar
               ? isSidebarOpen
                 ? "220px"
                 : "60px"
               : "0px",
             transition: "margin-left 0.3s ease",
+            paddingBottom: isMobile ? "70px" : "0px", // space for bottom nav
           }}
         >
+
           <Routes>
             {/* ---------- ADMIN ROUTES ---------- */}
             <Route
