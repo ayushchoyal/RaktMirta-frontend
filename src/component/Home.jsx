@@ -195,7 +195,7 @@ const Home = () => {
                 <li><a href="/" className="text-dark text-decoration-none">Home</a></li>
                 <li><a href="/donor-registration" className="text-dark text-decoration-none">Donate Blood</a></li>
                 <li><a href="/request" className="text-dark text-decoration-none">Request Blood</a></li>
-                <li><a href="/about" className="text-dark text-decoration-none">About Us</a></li>
+                <li><a href="/info" className="text-dark text-decoration-none">Information</a></li>
               </ul>
             </div>
 

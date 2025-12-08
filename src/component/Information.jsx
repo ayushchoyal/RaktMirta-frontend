@@ -432,8 +432,8 @@ const Information = () => {
                 <li><a href="/" className="text-dark text-decoration-none">Home</a></li>
                 <li><a href="/donor-registration" className="text-dark text-decoration-none">Donate Blood</a></li>
                 <li><a href="/request" className="text-dark text-decoration-none">Request Blood</a></li>
-                <li><a href="/about" className="text-dark text-decoration-none">About Us</a></li>
-                <li><a href="/information" className="text-dark text-decoration-none">Donation Info</a></li>
+                
+                <li><a href="/info" className="text-dark text-decoration-none">Information</a></li>
               </ul>
             </Col>
 

@@ -8,9 +8,7 @@ const DonorDetails = () => {
   const [error, setError] = useState(null);
 
   // Correct Backend URL Logic
-  const url =
-    "https://raktmitrabackend.onrender.com"
-      || "http://localhost:8080";
+const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
