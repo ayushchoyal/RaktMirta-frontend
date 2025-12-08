@@ -21,7 +21,7 @@ const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
 
     const fetchDonor = async () => {
       try {
-        const response = await fetch(`${url}/donor/${id}`, {
+        const response = await fetch(`${url}/user/donor/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
