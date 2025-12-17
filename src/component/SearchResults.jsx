@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 const SearchResults = () => {
   const navigate = useNavigate();
@@ -7,6 +8,7 @@ const SearchResults = () => {
 
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -61,6 +63,12 @@ const SearchResults = () => {
     fetchResults();
   }, [bloodGroup, type, city, state, gender, token]);
 
+   if (loading) return (
+    <div className="text-center mt-5">
+      <Spinner animation="border" variant="danger" />
+      <p className="mt-2">Loading ...</p>
+    </div>
+  );
   if (error)
     return (
       <div className="container py-5 text-center">
