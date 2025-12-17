@@ -17,3 +17,14 @@
 .custom-link:hover::after {
   width: 100%; /* underline expands smoothly */
 }
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+}

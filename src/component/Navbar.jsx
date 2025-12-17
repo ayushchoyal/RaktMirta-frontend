@@ -23,12 +23,10 @@ const Navbar = () => {
     navigate("/login");
   };
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,8 +35,10 @@ const Navbar = () => {
       return;
     }
     navigate(
-  `/search?type=${formData.searchType}&bloodGroup=${encodeURIComponent(formData.bloodGroup.trim())}`
-);
+      `/search?type=${formData.searchType}&bloodGroup=${encodeURIComponent(
+        formData.bloodGroup.trim()
+      )}`
+    );
   };
 
   return (
@@ -125,6 +125,7 @@ const Navbar = () => {
                 >
                   {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                 </button>
+
                 <ul
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="userMenu"
@@ -134,10 +135,13 @@ const Navbar = () => {
                       {user.name}
                     </span>
                   </li>
+
                   <li>
+                    {/* OPEN MODAL HERE */}
                     <button
                       className="dropdown-item text-danger"
-                      onClick={handleLogout}
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop"
                     >
                       Logout
                     </button>
@@ -152,6 +156,55 @@ const Navbar = () => {
                 Login
               </a>
             )}
+          </div>
+        </div>
+      </div>
+
+      {/* Logout Modal */}
+      <div
+        className="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Confirm Logout
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div className="modal-body text-center">
+              <h5>Do you want to logout?</h5>
+            </div>
+
+            <div className="modal-footer justify-content-center">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>
