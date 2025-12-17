@@ -40,8 +40,8 @@ const Navbar = () => {
       )}`
     );
   };
-
-  return (
+return (
+  <>
     <nav
       className="navbar navbar-expand-lg navbar-light shadow-sm"
       style={{
@@ -65,9 +65,6 @@ const Navbar = () => {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -75,6 +72,7 @@ const Navbar = () => {
         {/* Navbar Content */}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <div className="ms-auto d-flex flex-column flex-lg-row align-items-lg-center gap-2 mt-3 mt-lg-0">
+
             {/* Search Form */}
             <form
               className="d-flex align-items-center w-100 w-lg-auto"
@@ -112,32 +110,18 @@ const Navbar = () => {
             {user ? (
               <div className="dropdown ms-lg-3 mt-2 mt-lg-0">
                 <button
-                  className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center"
-                  type="button"
-                  id="userMenu"
+                  className="btn btn-danger rounded-circle"
                   data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    fontWeight: "bold",
-                  }}
+                  style={{ width: 40, height: 40 }}
                 >
-                  {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  {user.name?.charAt(0).toUpperCase()}
                 </button>
 
-                <ul
-                  className="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="userMenu"
-                >
-                  <li>
-                    <span className="dropdown-item-text fw-semibold">
-                      {user.name}
-                    </span>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li className="dropdown-item-text fw-semibold">
+                    {user.name}
                   </li>
-
                   <li>
-                    {/* OPEN MODAL HERE */}
                     <button
                       className="dropdown-item text-danger"
                       data-bs-toggle="modal"
@@ -149,67 +133,54 @@ const Navbar = () => {
                 </ul>
               </div>
             ) : (
-              <a
-                className="btn btn-outline-danger btn-sm ms-lg-3 mt-2 mt-lg-0"
-                href="/login"
-              >
+              <a className="btn btn-outline-danger btn-sm" href="/login">
                 Login
               </a>
             )}
           </div>
         </div>
       </div>
+    </nav>
 
-      {/* Logout Modal */}
-      <div
-        className="modal fade"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-                Confirm Logout
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
+    {/* Logout Modal (outside nav but inside fragment) */}
+    <div
+      className="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      tabIndex="-1"
+    >
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Confirm Logout</h5>
+            <button className="btn-close" data-bs-dismiss="modal"></button>
+          </div>
 
-            <div className="modal-body text-center">
-              <h5>Do you want to logout?</h5>
-            </div>
+          <div className="modal-body text-center">
+            <h5>Do you want to logout?</h5>
+          </div>
 
-            <div className="modal-footer justify-content-center">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
+          <div className="modal-footer justify-content-center">
+            <button
+              className="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
 
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
+            <button
+              className="btn btn-danger"
+              data-bs-dismiss="modal"
+              onClick={() => setTimeout(handleLogout, 150)}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
-    </nav>
-  );
+    </div>
+  </>
+);
 };
 
 export default Navbar;
