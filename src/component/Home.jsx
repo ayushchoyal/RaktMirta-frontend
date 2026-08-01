@@ -203,7 +203,7 @@ const Home = () => {
               <h5 className="fw-bold text-danger">Contact Us</h5>
               <p className="small mb-1"> Indore, Madhya Pradesh, India</p>
               <p className="small mb-1">support@raktmitra.org</p>
-              <p className="small"> +91 9755926645</p>
+              <p className="small"> +91 97XXXXXX45</p>
               <div className="d-flex gap-3 mt-2">
                 <a href="#" className="text-danger fs-5"><i className="bi bi-facebook"></i></a>
                 <a href="#" className="text-danger fs-5"><i className="bi bi-twitter"></i></a>
