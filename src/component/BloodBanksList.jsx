@@ -15,7 +15,8 @@ const BloodBanksList = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
 
-  const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+  // const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+  const url = "http://localhost:8080" ;
 
   const statesOfIndia = [
     "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh",
@@ -28,7 +29,7 @@ const BloodBanksList = () => {
   ];
 
   useEffect(() => {
-    AOS.init({ duration: 600, once: true });
+    AOS.init({ duration: 400, once: true });
   }, []);
 
   useEffect(() => {

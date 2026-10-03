@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+// const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+const url = "http://localhost:8080" ;
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -36,7 +37,7 @@ const Login = () => {
           localStorage.setItem("isLoggedIn", "true");
           localStorage.setItem("role", data.user.role);
 
-          setMessage("✅ Login successful!");
+          setMessage("Login successful!");
           setLoading(false);
 
           setTimeout(() => {
@@ -48,7 +49,7 @@ const Login = () => {
           }, 500);
         } else {
           setLoading(false);
-          setMessage(data.message || "❌ Invalid email or password");
+          setMessage(data.message || " Invalid email or password");
         }
       })
       .catch((err) => {
@@ -127,6 +128,13 @@ const Login = () => {
         </form>
 
         <div className="text-center mt-3">
+          <small>
+            <a href="/forgetpassword" className="text-danger fw-bold">
+              forget password
+            </a>
+          </small>
+          <br></br>
+
           <small>
             Don’t have an account?{" "}
             <a href="/register" className="text-danger fw-bold">

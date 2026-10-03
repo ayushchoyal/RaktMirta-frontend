@@ -29,6 +29,8 @@ import PatientDetails from "./patient/PatientDetails.jsx";
 import { Form } from "react-bootstrap";
 import FormSubmitted from "./component/FormSubmitted.jsx";
 import SearchResults from "./component/SearchResults.jsx";
+import ForgetPassword from "./component/ForgetPassword.jsx";
+import UserDetails from "./admin/UserDetails.jsx";
 
 
 function App() {
@@ -136,6 +138,16 @@ function App() {
                 )
               }
             />
+             <Route
+              path="/admin/users"
+              element={
+                isLoggedIn && role === "ADMIN" ? (
+                  <UserDetails />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
 
             {/* ---------- PUBLIC ROUTES ---------- */}
              <Route path="/" element={<Navigate to="/home" replace />} />
@@ -145,6 +157,7 @@ function App() {
             <Route path="/patients" element={<PatientList />} />
             <Route path="/info" element={<Information />} />
             <Route path="/bloodbanks" element={<BloodBanksList />} />
+            <Route path="/forgetpassword" element={<ForgetPassword/>}/> 
 
             {/* ---------- USER ROUTES (protected) ---------- */}
 

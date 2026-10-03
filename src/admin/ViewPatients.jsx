@@ -26,7 +26,8 @@ const ViewPatient = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-    const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+    // const url = "https://raktmitrabackend.onrender.com" || "http://localhost:8080";
+    const url = "http://localhost:8080" ;
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
