@@ -6,7 +6,8 @@ import {
   FaUserFriends,
   FaHospital,
   FaInfoCircle,
-  FaBars
+  FaBars,
+   FaFileMedicalAlt
 } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -78,9 +79,14 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             {isOpen && "Donors"}
           </Nav.Link>
 
-          <Nav.Link href="/patients" className="text-white d-flex align-items-center mb-3">
+          {/* <Nav.Link href="/patients" className="text-white d-flex align-items-center mb-3">
             <FaUserFriends className="me-2" />
             {isOpen && "Patients"}
+          </Nav.Link> */}
+
+          <Nav.Link href="/AICheckup" className="text-white d-flex align-items-center mb-3">
+             <FaFileMedicalAlt className="me-2" />
+            {isOpen && "AI Checkup"}
           </Nav.Link>
 
           <Nav.Link href="/bloodbanks" className="text-white d-flex align-items-center mb-3">

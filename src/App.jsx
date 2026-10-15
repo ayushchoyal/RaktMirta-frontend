@@ -31,6 +31,7 @@ import FormSubmitted from "./component/FormSubmitted.jsx";
 import SearchResults from "./component/SearchResults.jsx";
 import ForgetPassword from "./component/ForgetPassword.jsx";
 import UserDetails from "./admin/UserDetails.jsx";
+import AICheckup from "./component/AICheckup.jsx";
 
 
 function App() {
@@ -171,7 +172,16 @@ function App() {
                 )
               }
             />
-
+            <Route
+              path="/AICheckup"
+              element={
+                isLoggedIn && role === "USER" ? (
+                  <AICheckup />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
 
             <Route
               path="/user/home"
